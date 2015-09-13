@@ -281,7 +281,7 @@ func TestStopOnPieceNE(t *testing.T) {
 func TestStopOnPieceE(t *testing.T) {
 	_, controller := setupSquaredGame()
 	//Make invalid move past a piece
-	_, moveError := controller.MakeMove(NewMove(1, 1, 4, 4))
+	_, moveError := controller.MakeMove(NewMove(1, 1, 4, 1))
 	if moveError == nil {
 		t.Error("Expected move error for moving past a piece")
 	}
