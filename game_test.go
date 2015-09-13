@@ -102,7 +102,7 @@ func TestMoveEast(t *testing.T){
 	game, controller := setupEmptyGame()
 	game.SetLocation(2, 2, Neutrino)
 
-	controller.MakeMove(NewMove(2, 2, 4, 0))
+	controller.MakeMove(NewMove(2, 2, 4, 2))
 
 	middle, err  := game.GetLocation(2, 2)
 	if err != nil {
@@ -112,7 +112,7 @@ func TestMoveEast(t *testing.T){
 		t.Error("Expected", EmptySquare, "got", middle)
 	}
 
-	east, err := game.GetLocation(4, 0)
+	east, err := game.GetLocation(4, 2)
 	if err != nil {
 		t.Error("Expected no error got", err)
 	}
