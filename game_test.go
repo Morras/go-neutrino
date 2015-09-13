@@ -34,6 +34,21 @@ func setupEmptyGame() (*Game, *GameController) {
 }
 
 /**
+ * Setup with a player 1 piece on
+ * (1,1), (3,1), (3,1) and (3,3)
+ * and it is player ones turn to move
+ * their own piece.
+ */
+func setupSquaredGame() (*Game, *GameController) {
+	game, controller := setupEmptyGame()
+	game.SetLocation(1, 1, Player1)
+	game.SetLocation(1, 3, Player1)
+	game.SetLocation(3, 1, Player1)
+	game.SetLocation(3, 3, Player1)
+	return game, controller
+}
+
+/**
  * Series of test to see if basic movement
  * is working.
  */
@@ -221,3 +236,114 @@ func TestMoveNorthWest(t *testing.T){
 	}
 }
 
+func TestStopOnPieceNW(t *testing.T) {
+	_, controller := setupSquaredGame()
+	//Make invalid move past a piece
+	_, moveError := controller.MakeMove(NewMove(3, 3, 0, 0))
+	if moveError == nil {
+		t.Error("Expected move error for moving past a piece")
+	}
+	//Make a move that stops on contact with a piece
+	_, moveError = controller.MakeMove(NewMove(3, 3, 2, 2))
+	if moveError != nil {
+		t.Error("Expected no error got", moveError)
+	}
+}
+
+func TestStopOnPieceN(t *testing.T) {
+	_, controller := setupSquaredGame()
+	//Make invalid move past a piece
+	_, moveError := controller.MakeMove(NewMove(3, 3, 3, 0))
+	if moveError == nil {
+		t.Error("Expected move error for moving past a piece")
+	}
+	//Make a move that stops on contact with a piece
+	_, moveError = controller.MakeMove(NewMove(3, 3, 3, 2))
+	if moveError != nil {
+		t.Error("Expected no error got", moveError)
+	}
+}
+
+func TestStopOnPieceNE(t *testing.T) {
+	_, controller := setupSquaredGame()
+	//Make invalid move past a piece
+	_, moveError := controller.MakeMove(NewMove(1, 3, 4, 0))
+	if moveError == nil {
+		t.Error("Expected move error for moving past a piece")
+	}
+	//Make a move that stops on contact with a piece
+	_, moveError = controller.MakeMove(NewMove(1, 3, 2, 2))
+	if moveError != nil {
+		t.Error("Expected no error got", moveError)
+	}
+}
+
+func TestStopOnPieceE(t *testing.T) {
+	_, controller := setupSquaredGame()
+	//Make invalid move past a piece
+	_, moveError := controller.MakeMove(NewMove(1, 1, 4, 4))
+	if moveError == nil {
+		t.Error("Expected move error for moving past a piece")
+	}
+	//Make a move that stops on contact with a piece
+	_, moveError = controller.MakeMove(NewMove(1, 1, 2, 1))
+	if moveError != nil {
+		t.Error("Expected no error got", moveError)
+	}
+}
+
+func TestStopOnPieceSE(t *testing.T) {
+	_, controller := setupSquaredGame()
+	//Make invalid move past a piece
+	_, moveError := controller.MakeMove(NewMove(1, 1, 4, 4))
+	if moveError == nil {
+		t.Error("Expected move error for moving past a piece")
+	}
+	//Make a move that stops on contact with a piece
+	_, moveError = controller.MakeMove(NewMove(1, 1, 2, 2))
+	if moveError != nil {
+		t.Error("Expected no error got", moveError)
+	}
+}
+
+func TestStopOnPieceS(t *testing.T) {
+	_, controller := setupSquaredGame()
+	//Make invalid move past a piece
+	_, moveError := controller.MakeMove(NewMove(1, 1, 1, 4))
+	if moveError == nil {
+		t.Error("Expected move error for moving past a piece")
+	}
+	//Make a move that stops on contact with a piece
+	_, moveError = controller.MakeMove(NewMove(1, 1, 1, 2))
+	if moveError != nil {
+		t.Error("Expected no error got", moveError)
+	}
+}
+
+func TestStopOnPieceSW(t *testing.T) {
+	_, controller := setupSquaredGame()
+	//Make invalid move past a piece
+	_, moveError := controller.MakeMove(NewMove(3, 1, 0, 4))
+	if moveError == nil {
+		t.Error("Expected move error for moving past a piece")
+	}
+	//Make a move that stops on contact with a piece
+	_, moveError = controller.MakeMove(NewMove(3, 1, 2, 2))
+	if moveError != nil {
+		t.Error("Expected no error got", moveError)
+	}
+}
+
+func TestStopOnPieceW(t *testing.T) {
+	_, controller := setupSquaredGame()
+	//Make invalid move past a piece
+	_, moveError := controller.MakeMove(NewMove(3, 3, 0, 3))
+	if moveError == nil {
+		t.Error("Expected move error for moving past a piece")
+	}
+	//Make a move that stops on contact with a piece
+	_, moveError = controller.MakeMove(NewMove(3, 3, 2, 3))
+	if moveError != nil {
+		t.Error("Expected no error got", moveError)
+	}
+}
