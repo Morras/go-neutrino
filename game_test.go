@@ -221,3 +221,7 @@ func TestMoveNorthWest(t *testing.T){
 	}
 }
 
+func TestFailing(t *testing.T){
+	t.Error("Test failed on purpose")
+}
+
