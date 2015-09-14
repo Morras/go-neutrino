@@ -461,6 +461,12 @@ func TestCannotStopBeforeObstacleNW(t *testing.T) {
 	}
 }
 
+/**
+ * A series of tests that makes sure you cannot
+ * move a piece if the game is not in the correct
+ * state
+ */
+
 func TestPlayerOnePieceMustMatchState(t *testing.T) {
 	game, controller := setupEmptyGame()
 	game.SetLocation(2, 2, Player1)
@@ -475,6 +481,79 @@ func TestPlayerOnePieceMustMatchState(t *testing.T) {
 		_, moveError := controller.MakeMove(NewMove(2, 2, 0, 0))
 		if moveError == nil {
 			t.Error("It should not be possible to move a player1 piece when in state", state)
+		}
+	}
+	game.State = Player1Move
+	_, moveError := controller.MakeMove(NewMove(2, 2, 0, 0))
+	if moveError != nil {
+		t.Error("It should be possible to move player1")
+	}
+}
+
+func TestPlayerTwoPieceMustMatchState(t *testing.T) {
+	game, controller := setupEmptyGame()
+	game.SetLocation(2, 2, Player2)
+	invalidStates := [5]State{Player1NeutrinoMove,
+														Player2NeutrinoMove,
+														Player1Move,
+														Player1Win,
+														Player2Win}
+
+	for _, state := range invalidStates {
+		game.State = state
+		_, moveError := controller.MakeMove(NewMove(2, 2, 0, 0))
+		if moveError == nil {
+			t.Error("It should not be possible to move a player1 piece when in state", state)
+		}
+	}
+	game.State = Player2Move
+	_, moveError := controller.MakeMove(NewMove(2, 2, 0, 0))
+	if moveError != nil {
+		t.Error("It should be possible to move player2")
+	}
+}
+
+func TestNeutrinoPieceMustMatchState(t *testing.T) {
+	game, controller := setupEmptyGame()
+	game.SetLocation(2, 2, Neutrino)
+	invalidStates := [4]State{Player1Move,
+														Player2Move,
+														Player1Win,
+														Player2Win}
+
+	for _, state := range invalidStates {
+		game.State = state
+		_, moveError := controller.MakeMove(NewMove(2, 2, 0, 0))
+		if moveError == nil {
+			t.Error("It should not be possible to move a player1 piece when in state", state)
+		}
+	}
+	game.State = Player1NeutrinoMove
+	_, moveError := controller.MakeMove(NewMove(2, 2, 0, 0))
+	if moveError != nil {
+		t.Error("It should be possible to move neutrino in state", Player1NeutrinoMove)
+	}
+	game.State = Player2NeutrinoMove
+	_, moveError = controller.MakeMove(NewMove(0, 0, 0, 4))
+	if moveError != nil {
+		t.Error("It should be possible to move neutrino in state", Player2NeutrinoMove)
+	}
+}
+
+func TestEmptyPiecesMustNotBeMoved(t *testing.T) {
+	game, controller := setupEmptyGame()
+	invalidStates := [6]State{Player1NeutrinoMove,
+														Player2NeutrinoMove,
+														Player1Move,
+														Player2Move,
+														Player1Win,
+														Player2Win}
+
+	for _, state := range invalidStates {
+		game.State = state
+		_, moveError := controller.MakeMove(NewMove(2, 2, 0, 0))
+		if moveError == nil {
+			t.Error("It should not be possible to move from an empty square", state)
 		}
 	}
 }
