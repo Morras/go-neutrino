@@ -45,6 +45,20 @@ func setupSquaredGame() (*Game, *GameController) {
 	game.SetLocation(1, 3, Player1)
 	game.SetLocation(3, 1, Player1)
 	game.SetLocation(3, 3, Player1)
+	game.State = Player1Move;
+	return game, controller
+}
+
+/**
+ * Setup a game with neutrino in the
+ * middle as the only piece and
+ * it is player ones turn to move the
+ * neutrino
+ */
+func setupCenteredGame() (*Game, *GameController) {
+	game, controller := setupEmptyGame()
+	game.SetLocation(2, 2, Neutrino)
+	game.State = Player1NeutrinoMove;
 	return game, controller
 }
 
@@ -53,8 +67,7 @@ func setupSquaredGame() (*Game, *GameController) {
  * is working.
  */
 func TestMoveNorth(t *testing.T){
-	game, controller := setupEmptyGame()
-	game.SetLocation(2, 2, Neutrino)
+	game, controller := setupCenteredGame()
 
 	controller.MakeMove(NewMove(2, 2, 2, 0))
 
@@ -76,8 +89,7 @@ func TestMoveNorth(t *testing.T){
 }
 
 func TestMoveNorthEast(t *testing.T){
-	game, controller := setupEmptyGame()
-	game.SetLocation(2, 2, Neutrino)
+	game, controller := setupCenteredGame()
 
 	controller.MakeMove(NewMove(2, 2, 4, 0))
 
@@ -99,8 +111,7 @@ func TestMoveNorthEast(t *testing.T){
 }
 
 func TestMoveEast(t *testing.T){
-	game, controller := setupEmptyGame()
-	game.SetLocation(2, 2, Neutrino)
+	game, controller := setupCenteredGame()
 
 	controller.MakeMove(NewMove(2, 2, 4, 2))
 
@@ -122,8 +133,7 @@ func TestMoveEast(t *testing.T){
 }
 
 func TestMoveSouthEast(t *testing.T){
-	game, controller := setupEmptyGame()
-	game.SetLocation(2, 2, Neutrino)
+	game, controller := setupCenteredGame()
 
 	controller.MakeMove(NewMove(2, 2, 4, 4))
 
@@ -145,8 +155,7 @@ func TestMoveSouthEast(t *testing.T){
 }
 
 func TestMoveSouth(t *testing.T){
-	game, controller := setupEmptyGame()
-	game.SetLocation(2, 2, Neutrino)
+	game, controller := setupCenteredGame()
 
 	controller.MakeMove(NewMove(2, 2, 2, 4))
 
@@ -168,8 +177,7 @@ func TestMoveSouth(t *testing.T){
 }
 
 func TestMoveSouthWest(t *testing.T){
-	game, controller := setupEmptyGame()
-	game.SetLocation(2, 2, Neutrino)
+	game, controller := setupCenteredGame()
 
 	controller.MakeMove(NewMove(2, 2, 0, 4))
 
@@ -191,8 +199,7 @@ func TestMoveSouthWest(t *testing.T){
 }
 
 func TestMoveWest(t *testing.T){
-	game, controller := setupEmptyGame()
-	game.SetLocation(2, 2, Neutrino)
+	game, controller := setupCenteredGame()
 
 	controller.MakeMove(NewMove(2, 2, 0, 2))
 
@@ -214,8 +221,7 @@ func TestMoveWest(t *testing.T){
 }
 
 func TestMoveNorthWest(t *testing.T){
-	game, controller := setupEmptyGame()
-	game.SetLocation(2, 2, Neutrino)
+	game, controller := setupCenteredGame()
 
 	controller.MakeMove(NewMove(2, 2, 0, 0))
 
@@ -235,6 +241,11 @@ func TestMoveNorthWest(t *testing.T){
 		t.Error("Expected", Neutrino, "got", nw)
 	}
 }
+
+/**
+ * Series of tests to make sure a piece
+ * cannot jump over another piece
+ */
 
 func TestStopOnPieceNW(t *testing.T) {
 	_, controller := setupSquaredGame()
@@ -347,3 +358,8 @@ func TestStopOnPieceW(t *testing.T) {
 		t.Error("Expected no error got", moveError)
 	}
 }
+
+/**
+ * Series of test to make sure you cannot
+ * move outside the game board
+ */
