@@ -42,6 +42,13 @@ func (self *GameController) EndGame() {
 }
 
 func (self *GameController) isMoveLegal(move Move) (bool, string) {
+
+	answer, errorMessage := self.isMoveValidForState(move)
+
+	if ! answer {
+		return false, errorMessage
+	}
+
 	deltaX := int8(move.ToX - move.FromX);
 	deltaY := int8(move.ToY - move.FromY);
 	//TODO invalid move that is not straight or diagonal
@@ -61,6 +68,29 @@ func (self *GameController) isMoveLegal(move Move) (bool, string) {
 	steps := math.Max(math.Abs(float64(deltaX)), math.Abs(float64(deltaY)))
 
 	return self.isMoveByDirectionLegal(move.FromX, move.FromY, direction, byte(steps));
+}
+
+func (self *GameController) isMoveValidForState(move Move) (bool, string) {
+	state := self.game.State
+	if state == Player1Win || state == Player2Win {
+		return false, "Cannot move as the game has been won"
+	}
+
+	entry, err := self.game.GetLocation(move.FromX, move.FromY)
+	if err != nil {
+		return false, err.Error()
+	}
+
+	if entry == EmptySquare {
+		return false, "Move must start at a non empty board location"
+	} else if entry == Player1 && state != Player1Move {
+		return false, "Move must start at board location with a player 1 piece"
+	} else if entry == Player2 && state != Player2Move {
+		return false, "Move must start at board location with a player 2 piece"
+	} else if entry == Neutrino && state != Player1NeutrinoMove && state != Player2NeutrinoMove  {
+		return false, "Move must start at board location with a player 1 piece"
+	}
+	return true, ""
 }
 
 

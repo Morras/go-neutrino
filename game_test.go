@@ -460,3 +460,21 @@ func TestCannotStopBeforeObstacleNW(t *testing.T) {
 		t.Error("Expected an error when stopping a piece before an obstacle")
 	}
 }
+
+func TestPlayerOnePieceMustMatchState(t *testing.T) {
+	game, controller := setupEmptyGame()
+	game.SetLocation(2, 2, Player1)
+	invalidStates := [5]State{Player1NeutrinoMove,
+														Player2NeutrinoMove,
+														Player2Move,
+														Player1Win,
+														Player2Win}
+
+	for _, state := range invalidStates {
+		game.State = state
+		_, moveError := controller.MakeMove(NewMove(2, 2, 0, 0))
+		if moveError == nil {
+			t.Error("It should not be possible to move a player1 piece when in state", state)
+		}
+	}
+}
