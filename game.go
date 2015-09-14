@@ -70,49 +70,63 @@ func (self *GameController) isMoveByDirectionLegal(startX, startY byte, directio
 		return false, fmt.Sprint("The suggested move does not actually move any piece.")
 	}
 
+	isNextSquareFree := true
+
 	for i := byte(1); i <= steps; i++ {
 		switch direction {
 		case "N":
 			free, errorString := self.checkIfSquareIsFree(startX - i, startY)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX - (i + 1), startY)
 			if ! free {
 				return free, errorString
 			}
 		case "NE":
 			free, errorString := self.checkIfSquareIsFree(startX - i, startY + i)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX - (i + 1), startY + (i + 1))
 			if ! free {
 				return free, errorString
 			}
 		case "E":
 			free, errorString := self.checkIfSquareIsFree(startX, startY + i)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX, startY + (i + 1))
 			if ! free {
 				return free, errorString
 			}
 		case "SE":
 			free, errorString := self.checkIfSquareIsFree(startX + i, startY + i)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX + (i + 1), startY + (i + 1))
 			if ! free {
 				return free, errorString
 			}
 		case "S":
 			free, errorString := self.checkIfSquareIsFree(startX + i, startY)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX + (i + 1), startY)
 			if ! free {
 				return free, errorString
 			}
 		case "SW":
 			free, errorString := self.checkIfSquareIsFree(startX + i, startY - i)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX + (i + 1), startY - (i + 1))
 			if ! free {
 				return free, errorString
 			}
 		case "W":
 			free, errorString := self.checkIfSquareIsFree(startX, startY - i)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX, startY - (i + 1))
 			if ! free {
 				return free, errorString
 			}
 		case "NW":
 			free, errorString := self.checkIfSquareIsFree(startX - i, startY - i)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX - (i + 1), startY - (i + 1))
 			if ! free {
 				return free, errorString
 			}
 		}
+	}
+
+	if isNextSquareFree {
+		return false, "Move does not move untill an obstacle is hit"
 	}
 
 	return true, "no error"
