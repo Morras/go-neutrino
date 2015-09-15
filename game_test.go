@@ -564,7 +564,7 @@ func TestEmptyPiecesMustNotBeMoved(t *testing.T) {
  */
 
 func TestCanOnlyMoveStraightLowerLeftStart(t *testing.T) {
-	game, controller := setupCenteredGame()
+	game, controller := setupEmptyGame()
 	game.SetLocation(1, 3, Player1)
 	game.State = Player1Move
 	invalidMoves := [10]Move{NewMove(1, 3, 0, 0),
@@ -587,7 +587,7 @@ func TestCanOnlyMoveStraightLowerLeftStart(t *testing.T) {
 }
 
 func TestCanOnlyMoveStraightUpperRightStart(t *testing.T) {
-	game, controller := setupCenteredGame()
+	game, controller := setupEmptyGame()
 	game.SetLocation(3, 1, Player1)
 	game.State = Player1Move
 	invalidMoves := [10]Move{NewMove(3, 1, 0, 0),
@@ -606,5 +606,17 @@ func TestCanOnlyMoveStraightUpperRightStart(t *testing.T) {
 		if moveError == nil {
 			t.Error("A piece should only be able to move in straight lines", move)
 		}
+	}
+}
+
+/**
+ * A piece cannot be moved to its own location
+ */
+
+func TestPieceMustMoveToAnotherLocation(t *testing.T) {
+	_, controller := setupCenteredGame()
+	_, moveError := controller.MakeMove(NewMove(2, 2, 2, 2))
+	if moveError == nil {
+		t.Error("It should not be possible to move a piece to its own location")
 	}
 }
