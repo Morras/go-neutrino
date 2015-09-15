@@ -56,10 +56,6 @@ func (self *GameController) isMoveLegal(move Move) (bool, string) {
 		return false, "A piece must move atleast one square"
 	}
 
-	if deltaX != 0 && deltaY != 0 && deltaX != deltaY && deltaX != -deltaY {
-		return false, "Piece must be move in a straight line"
-	}
-
 	direction := ""
 	if deltaY < 0 {
 		direction += "N"
