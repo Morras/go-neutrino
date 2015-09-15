@@ -557,3 +557,54 @@ func TestEmptyPiecesMustNotBeMoved(t *testing.T) {
 		}
 	}
 }
+
+/**
+ * Series of test to make sure a piece is only moved 
+ * in a horizontal, vertical or diagonal direction
+ */
+
+func TestCanOnlyMoveStraightLowerLeftStart(t *testing.T) {
+	game, controller := setupCenteredGame()
+	game.SetLocation(1, 3, Player1)
+	game.State = Player1Move
+	invalidMoves := [10]Move{NewMove(1, 3, 0, 0),
+													NewMove(1, 3, 0, 1),
+													NewMove(1, 3, 2, 0),
+													NewMove(1, 3, 2, 1),
+													NewMove(1, 3, 3, 0),
+													NewMove(1, 3, 3, 2),
+													NewMove(1, 3, 3, 4),
+													NewMove(1, 3, 4, 1),
+													NewMove(1, 3, 4, 2),
+													NewMove(1, 3, 4, 4)}
+
+	for _, move := range invalidMoves {
+		_, moveError := controller.MakeMove(move)
+		if moveError == nil {
+			t.Error("A piece should only be able to move in straight lines", move)
+		}
+	}
+}
+
+func TestCanOnlyMoveStraightUpperRightStart(t *testing.T) {
+	game, controller := setupCenteredGame()
+	game.SetLocation(3, 1, Player1)
+	game.State = Player1Move
+	invalidMoves := [10]Move{NewMove(3, 1, 0, 0),
+													NewMove(3, 1, 0, 2),
+													NewMove(3, 1, 0, 3),
+													NewMove(3, 1, 1, 0),
+													NewMove(3, 1, 1, 2),
+													NewMove(3, 1, 1, 4),
+													NewMove(3, 1, 2, 3),
+													NewMove(3, 1, 2, 4),
+													NewMove(3, 1, 4, 3),
+													NewMove(3, 1, 4, 4)}
+
+	for _, move := range invalidMoves {
+		_, moveError := controller.MakeMove(move)
+		if moveError == nil {
+			t.Error("A piece should only be able to move in straight lines", move)
+		}
+	}
+}

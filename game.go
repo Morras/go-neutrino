@@ -51,7 +51,10 @@ func (self *GameController) isMoveLegal(move Move) (bool, string) {
 
 	deltaX := int8(move.ToX - move.FromX);
 	deltaY := int8(move.ToY - move.FromY);
-	//TODO invalid move that is not straight or diagonal
+
+	if deltaX != 0 && deltaY != 0 && ( deltaX != deltaY && deltaX != -deltaY) {
+		return false, "Piece must be move in a straight line"
+	}
 
 	direction := ""
 	if deltaY < 0 {
