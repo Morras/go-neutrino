@@ -1,6 +1,7 @@
 package neutrino
 
 import "testing"
+//import "fmt"
 
 /** 
  * There is a problem that GameController sends messages
@@ -618,5 +619,51 @@ func TestPieceMustMoveToAnotherLocation(t *testing.T) {
 	_, moveError := controller.MakeMove(NewMove(2, 2, 2, 2))
 	if moveError == nil {
 		t.Error("It should not be possible to move a piece to its own location")
+	}
+}
+
+/**
+ * Tests to make sure the game state is
+ * advanced upon a move
+ */
+
+func TestGameStateAdvanceShouldAdvanceUponMove(t *testing.T) {
+	game, controller := setupEmptyGame()
+	game.State = Player1NeutrinoMove
+	game.SetLocation(1, 1, Neutrino)
+	game.SetLocation(2, 1, Player1)
+	game.SetLocation(3, 1, Player2)
+
+	//Move neutrino piece
+	state, moveError := controller.MakeMove(NewMove(1, 1, 1, 0))
+	if moveError != nil {
+		t.Error("It should be possible to move neutrino piece:", moveError)
+	}
+	if state != Player1Move {
+		t.Error("State should have advanced after neutrino was moved but was", state)
+	}
+	//Move player 1 piece
+	state, moveError = controller.MakeMove(NewMove(2, 1, 2, 0))
+	if moveError != nil {
+		t.Error("It should be possible to move player 1 piece:", moveError)
+	}
+	if state != Player2NeutrinoMove {
+		t.Error("State should have advanced after player 1 piece was moved but was", state)
+	}
+	//Move neutrino piece
+	state, moveError =	controller.MakeMove(NewMove(1, 0, 1, 4))
+	if moveError != nil {
+		t.Error("It should be possible to move neutrino piece:", moveError)
+	}
+	if state != Player2Move {
+		t.Error("State should have advanced after neutrino was moved but was", state)
+	}
+	//Move player 2 piece
+	state, moveError = controller.MakeMove(NewMove(3, 1, 3, 0))
+	if moveError != nil {
+		t.Error("It should be possible to move player 2 piece:", moveError)
+	}
+	if state != Player1NeutrinoMove {
+		t.Error("State should have advanced after neutrino was moved but was", state)
 	}
 }

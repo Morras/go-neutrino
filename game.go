@@ -33,6 +33,7 @@ func (self *GameController) MakeMove(m Move) (State, error) {
 
 	self.game.State = self.getNextState()
 	self.stateChannel <- self.game.State
+
 	return self.game.State, nil
 }
 
@@ -51,6 +52,10 @@ func (self *GameController) isMoveLegal(move Move) (bool, string) {
 
 	deltaX := int8(move.ToX - move.FromX);
 	deltaY := int8(move.ToY - move.FromY);
+
+	if deltaX != 0 && deltaY != 0 && ( deltaX != deltaY && deltaX != -deltaY) {
+		return false, "Piece must be move in a straight line"
+	}
 
 	if deltaX == 0 && deltaY == 0 {
 		return false, "A piece must move atleast one square"
@@ -74,6 +79,7 @@ func (self *GameController) isMoveLegal(move Move) (bool, string) {
 }
 
 func (self *GameController) isMoveValidForState(move Move) (bool, string) {
+
 	state := self.game.State
 	if state == Player1Win || state == Player2Win {
 		return false, "Cannot move as the game has been won"
@@ -108,20 +114,20 @@ func (self *GameController) isMoveByDirectionLegal(startX, startY byte, directio
 	for i := byte(1); i <= steps; i++ {
 		switch direction {
 		case "N":
-			free, errorString := self.checkIfSquareIsFree(startX - i, startY)
-			isNextSquareFree, _ = self.checkIfSquareIsFree(startX - (i + 1), startY)
+			free, errorString := self.checkIfSquareIsFree(startX, startY - i)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX, startY - (i + 1))
 			if ! free {
 				return free, errorString
 			}
 		case "NE":
-			free, errorString := self.checkIfSquareIsFree(startX - i, startY + i)
-			isNextSquareFree, _ = self.checkIfSquareIsFree(startX - (i + 1), startY + (i + 1))
+			free, errorString := self.checkIfSquareIsFree(startX + i, startY - i)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX + (i + 1), startY - (i + 1))
 			if ! free {
 				return free, errorString
 			}
 		case "E":
-			free, errorString := self.checkIfSquareIsFree(startX, startY + i)
-			isNextSquareFree, _ = self.checkIfSquareIsFree(startX, startY + (i + 1))
+			free, errorString := self.checkIfSquareIsFree(startX + i, startY)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX + (i + 1), startY)
 			if ! free {
 				return free, errorString
 			}
@@ -132,20 +138,20 @@ func (self *GameController) isMoveByDirectionLegal(startX, startY byte, directio
 				return free, errorString
 			}
 		case "S":
-			free, errorString := self.checkIfSquareIsFree(startX + i, startY)
-			isNextSquareFree, _ = self.checkIfSquareIsFree(startX + (i + 1), startY)
+			free, errorString := self.checkIfSquareIsFree(startX, startY + i)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX, startY + (i + 1))
 			if ! free {
 				return free, errorString
 			}
 		case "SW":
-			free, errorString := self.checkIfSquareIsFree(startX + i, startY - i)
-			isNextSquareFree, _ = self.checkIfSquareIsFree(startX + (i + 1), startY - (i + 1))
+			free, errorString := self.checkIfSquareIsFree(startX - i, startY + i)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX - (i + 1), startY + (i + 1))
 			if ! free {
 				return free, errorString
 			}
 		case "W":
-			free, errorString := self.checkIfSquareIsFree(startX, startY - i)
-			isNextSquareFree, _ = self.checkIfSquareIsFree(startX, startY - (i + 1))
+			free, errorString := self.checkIfSquareIsFree(startX - i, startY)
+			isNextSquareFree, _ = self.checkIfSquareIsFree(startX - (i + 1), startY)
 			if ! free {
 				return free, errorString
 			}
