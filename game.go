@@ -50,6 +50,11 @@ func (self *GameController) isMoveLegal(move Move) (bool, string) {
 		return false, errorMessage
 	}
 
+	if ( move.ToY == 0 && self.game.State == Player1Move && self.getOwnPiecesOnHomeRow(1) == 4 ) ||
+ 		 ( move.ToY == 4 && self.game.State == Player2Move && self.getOwnPiecesOnHomeRow(2) == 4 ) {
+		return false, "Cannot move all five pieces back on home row"
+	}
+
 	deltaX := int8(move.ToX - move.FromX);
 	deltaY := int8(move.ToY - move.FromY);
 
@@ -89,11 +94,11 @@ func (self *GameController) isMoveValidForState(move Move) (bool, string) {
 	if entry == EmptySquare {
 		return false, "Move must start at a non empty board location"
 	} else if entry == Player1 && state != Player1Move {
-		return false, "Move must start at board location with a player 1 piece"
+		return false, "It must be player 1 turn to move player 1 piece"
 	} else if entry == Player2 && state != Player2Move {
-		return false, "Move must start at board location with a player 2 piece"
+		return false, "It must be player 2 turn to move player 2 piece"
 	} else if entry == Neutrino && state != Player1NeutrinoMove && state != Player2NeutrinoMove  {
-		return false, "Move must start at board location with a player 1 piece"
+		return false, "It must be either player 1 or player 2 turn to move neutrino"
 	}
 	return true, ""
 }
@@ -221,4 +226,24 @@ func (self *GameController) getNextState() State {
 	}
 	//We should never get here
 	panic(fmt.Sprintf("Game is in a state it cannot move on from %d", self.game.State))
+}
+
+func (self *GameController) getOwnPiecesOnHomeRow(player byte) byte {
+	count := byte(0)
+	if player == 1 {
+		for i := byte(0); i < 5; i++ {
+			piece, _ := self.game.GetLocation(i, 0)
+			if piece == Player1 {
+				count++;
+			}
+		}
+	} else	if player == 2 {
+		for i := byte(0); i < 5; i++ {
+			piece, _ := self.game.GetLocation(i, 4)
+			if piece == Player2 {
+				count++;
+			}
+		}
+	}
+	return count
 }

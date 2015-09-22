@@ -744,3 +744,89 @@ func TestCannotMoveToAnotherPiece(t *testing.T){
 		t.Error("Expected an error when making a move from south of the board")
 	}
 }
+
+func TestCannotMoveAllPiecesBackToPlayer1HomeRow(t *testing.T){
+	game, controller := setupEmptyGame()
+	game.State = Player1Move
+	game.SetLocation(0, 0, Player1)
+	game.SetLocation(1, 0, Player1)
+	game.SetLocation(2, 0, Player1)
+	game.SetLocation(3, 0, Player1)
+	game.SetLocation(4, 0, Player1)
+
+	_, err := controller.MakeMove(NewMove(1, 0, 1, 4))
+	if err != nil {
+		t.Error("Expected to be able to make a straight move, got", err)
+	}
+	game.State = Player1Move
+	//You cannot have your own five pieces back on your own home
+	//row after it has been broken by the first move
+	_, err = controller.MakeMove(NewMove(1, 4, 1, 0))
+	if err == nil {
+		t.Error("Expected to not be able to return all pieces to home row")
+	}
+	//If we remove a piece from the home work it should then be 
+	//possible to move back
+	game.State = Player1Move
+	_, err = controller.MakeMove(NewMove(4, 0, 4, 4))
+	if err != nil {
+		t.Error("Expected to be able to make a straight move, got", err)
+	}
+	game.State = Player1Move
+	_, err = controller.MakeMove(NewMove(1, 4, 1, 0))
+	if err != nil {
+		t.Error("Expected to be able move back when there is only three pieces on the home row, got", err)
+	}
+	//An opposing piece does not count against moving to the home row
+	game.SetLocation(4, 0, Player2)
+	game.State = Player1Move
+	controller.MakeMove(NewMove(1, 0, 1, 4))
+	game.State = Player1Move
+	_, err = controller.MakeMove(NewMove(1, 4, 1, 0))
+	if err != nil {
+		t.Error("Expected to be able move back when there is only three pieces and an opposing piece on the home row, got", err)
+	}
+}
+
+func TestCannotMoveAllPiecesBackToPlayer2HomeRow(t *testing.T){
+	game, controller := setupEmptyGame()
+	game.State = Player2Move
+	game.SetLocation(0, 4, Player2)
+	game.SetLocation(1, 4, Player2)
+	game.SetLocation(2, 4, Player2)
+	game.SetLocation(3, 4, Player2)
+	game.SetLocation(4, 4, Player2)
+
+	_, err := controller.MakeMove(NewMove(1, 4, 1, 0))
+	if err != nil {
+		t.Error("Expected to be able to make a straight move, got", err)
+	}
+	game.State = Player2Move
+	//You cannot have your own five pieces back on your own home
+	//row after it has been broken by the first move
+	_, err = controller.MakeMove(NewMove(1, 0, 1, 4))
+	if err == nil {
+		t.Error("Expected to not be able to return all pieces to home row")
+	}
+	//If we remove a piece from the home work it should then be 
+	//possible to move back
+	game.State = Player2Move
+	_, err = controller.MakeMove(NewMove(4, 4, 4, 0))
+	if err != nil {
+		t.Error("Expected to be able to make a straight move, got", err)
+	}
+	game.State = Player2Move
+	_, err = controller.MakeMove(NewMove(1, 0, 1, 4))
+	if err != nil {
+		t.Error("Expected to be able move back when there is only three pieces on the home row, got", err)
+	}
+	//An opposing piece does not count against moving to the home row
+	game.SetLocation(4, 4, Player1)
+	game.State = Player2Move
+	controller.MakeMove(NewMove(1, 4, 1, 0))
+	game.State = Player2Move
+	_, err = controller.MakeMove(NewMove(1, 0, 1, 4))
+	if err != nil {
+		t.Error("Expected to be able move back when there is only three pieces and an opposing piece on the home row, got", err)
+	}
+}
