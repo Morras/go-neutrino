@@ -683,3 +683,31 @@ func TestGameStateAdvanceShouldAdvanceUponMove(t *testing.T) {
 		t.Error("State should have advanced after neutrino was moved but was", state)
 	}
 }
+
+func TestGameStateShouldNotAdvanceUponInvalidMove(t *testing.T) {
+	game, controller := setupEmptyGame()
+	game.State = Player1NeutrinoMove
+	game.SetLocation(1, 1, Neutrino)
+	game.SetLocation(2, 1, Player1)
+
+	//Try a moving in a non straight line
+	controller.MakeMove(NewMove(1, 1, 0, 3))
+	if game.State != Player1NeutrinoMove {
+		t.Error("State should not change on an illegal move, expected", Player1NeutrinoMove, "was", game.State)
+	}
+	//Try stopping before the edge
+	controller.MakeMove(NewMove(1, 1, 1, 3))
+	if game.State != Player1NeutrinoMove {
+		t.Error("State should not change on an illegal move, expected", Player1NeutrinoMove, "was", game.State)
+	}
+	//Try jumping over a piece
+	controller.MakeMove(NewMove(1, 1, 4, 1))
+	if game.State != Player1NeutrinoMove {
+		t.Error("State should not change on an illegal move, expected", Player1NeutrinoMove, "was", game.State)
+	}
+	//Try moving a wrong piece
+	controller.MakeMove(NewMove(2, 1, 2, 0))
+	if game.State != Player1NeutrinoMove {
+		t.Error("State should not change on an illegal move, expected", Player1NeutrinoMove, "was", game.State)
+	}
+}
