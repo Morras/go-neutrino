@@ -732,3 +732,15 @@ func TestMoveFromOutsideTheBoardIsInvalid(t  *testing.T) {
 		t.Error("Expected an error when making a move from south-east of the board")
 	}
 }
+
+func TestCannotMoveToAnotherPiece(t *testing.T){
+	game, controller := setupEmptyGame()
+	game.State = Player1NeutrinoMove
+	game.SetLocation(1, 1, Neutrino)
+	game.SetLocation(4, 1, Player1)
+
+	_, err := controller.MakeMove(NewMove(1, 1, 4, 1))
+	if err == nil {
+		t.Error("Expected an error when making a move from south of the board")
+	}
+}
