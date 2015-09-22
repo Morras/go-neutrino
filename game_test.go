@@ -711,3 +711,24 @@ func TestGameStateShouldNotAdvanceUponInvalidMove(t *testing.T) {
 		t.Error("State should not change on an illegal move, expected", Player1NeutrinoMove, "was", game.State)
 	}
 }
+
+//We cannot make any moves from the west or north of
+//the board as the indices are bytes
+func TestMoveFromOutsideTheBoardIsInvalid(t  *testing.T) {
+	//We cannot add any pieces because the game
+	//will give an error when we try
+	_, controller := setupEmptyGame()
+
+	_, err := controller.MakeMove(NewMove(1, 6, 1, 0))
+	if err == nil {
+		t.Error("Expected an error when making a move from south of the board")
+	}
+	_, err = controller.MakeMove(NewMove(6, 1, 0, 1))
+	if err == nil {
+		t.Error("Expected an error when making a move from east of the board")
+	}
+	_, err = controller.MakeMove(NewMove(6, 6, 0, 0))
+	if err == nil {
+		t.Error("Expected an error when making a move from south-east of the board")
+	}
+}
