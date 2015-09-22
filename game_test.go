@@ -399,23 +399,29 @@ func TestCannotMoveOutsideBoardS(t *testing.T) {
  */
 
 func TestCannotStopBeforeObstacleN(t *testing.T) {
-	_, controller := setupCenteredGame()
-	_, moveError := controller.MakeMove(NewMove(2, 2, 2, 1))
+	game, controller := setupEmptyGame()
+	game.SetLocation(2, 3, Player1)
+	game.State = Player1Move
+	_, moveError := controller.MakeMove(NewMove(2, 3, 2, 1))
 	if moveError == nil {
 		t.Error("Expected an error when stopping a piece before an obstacle")
 	}
 }
 
 func TestCannotStopBeforeObstacleNE(t *testing.T) {
-	_, controller := setupCenteredGame()
-	_, moveError := controller.MakeMove(NewMove(2, 2, 3, 1))
+	game, controller := setupEmptyGame()
+	game.SetLocation(1, 3, Player1)
+	game.State = Player1Move
+	_, moveError := controller.MakeMove(NewMove(1, 3, 3, 1))
 	if moveError == nil {
 		t.Error("Expected an error when stopping a piece before an obstacle")
 	}
 }
 
 func TestCannotStopBeforeObstacleE(t *testing.T) {
-	_, controller := setupCenteredGame()
+	game, controller := setupEmptyGame()
+	game.SetLocation(1, 2, Player1)
+	game.State = Player1Move
 	_, moveError := controller.MakeMove(NewMove(2, 2, 3, 2))
 	if moveError == nil {
 		t.Error("Expected an error when stopping a piece before an obstacle")
@@ -423,7 +429,9 @@ func TestCannotStopBeforeObstacleE(t *testing.T) {
 }
 
 func TestCannotStopBeforeObstacleSE(t *testing.T) {
-	_, controller := setupCenteredGame()
+	game, controller := setupEmptyGame()
+	game.SetLocation(1, 1, Player1)
+	game.State = Player1Move
 	_, moveError := controller.MakeMove(NewMove(2, 2, 3, 3))
 	if moveError == nil {
 		t.Error("Expected an error when stopping a piece before an obstacle")
@@ -431,7 +439,9 @@ func TestCannotStopBeforeObstacleSE(t *testing.T) {
 }
 
 func TestCannotStopBeforeObstacleS(t *testing.T) {
-	_, controller := setupCenteredGame()
+	game, controller := setupEmptyGame()
+	game.SetLocation(2, 1, Player1)
+	game.State = Player1Move
 	_, moveError := controller.MakeMove(NewMove(2, 2, 2, 3))
 	if moveError == nil {
 		t.Error("Expected an error when stopping a piece before an obstacle")
@@ -439,7 +449,9 @@ func TestCannotStopBeforeObstacleS(t *testing.T) {
 }
 
 func TestCannotStopBeforeObstacleSW(t *testing.T) {
-	_, controller := setupCenteredGame()
+	game, controller := setupEmptyGame()
+	game.SetLocation(3, 1, Player1)
+	game.State = Player1Move
 	_, moveError := controller.MakeMove(NewMove(2, 2, 1, 3))
 	if moveError == nil {
 		t.Error("Expected an error when stopping a piece before an obstacle")
@@ -447,7 +459,9 @@ func TestCannotStopBeforeObstacleSW(t *testing.T) {
 }
 
 func TestCannotStopBeforeObstacleW(t *testing.T) {
-	_, controller := setupCenteredGame()
+	game, controller := setupEmptyGame()
+	game.SetLocation(3, 2, Player1)
+	game.State = Player1Move
 	_, moveError := controller.MakeMove(NewMove(2, 2, 1, 2))
 	if moveError == nil {
 		t.Error("Expected an error when stopping a piece before an obstacle")
@@ -455,7 +469,9 @@ func TestCannotStopBeforeObstacleW(t *testing.T) {
 }
 
 func TestCannotStopBeforeObstacleNW(t *testing.T) {
-	_, controller := setupCenteredGame()
+	game, controller := setupEmptyGame()
+	game.SetLocation(3, 3, Player1)
+	game.State = Player1Move
 	_, moveError := controller.MakeMove(NewMove(2, 2, 1, 1))
 	if moveError == nil {
 		t.Error("Expected an error when stopping a piece before an obstacle")
