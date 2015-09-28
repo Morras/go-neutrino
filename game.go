@@ -205,12 +205,60 @@ func (self *GameController) move(move Move) {
 }
 
 func (self *GameController) isThereAWinner() (bool, State) {
+
+	//neutrino location
+	x, y := self.locateNeutrino()
+
+	//Note that if the neutrino has been move
+	//it cannot be blocked so the only two valid
+	//states where a blocked neutrino could happen
+	//are Player1Move and Player2Move w
+	isSquareBlocked := self.isSquareBlocked(x, y)
+	if isSquareBlocked && self.game.State == Player1Move {
+		return true, Player1Win
+	} else if isSquareBlocked && self.game.State == Player2Move {
+		return true, Player2Win
+	}
+
 	//TODO
 	//See if neutrino is on back row
 	//See if neutrino is on front row
-	//See if neutrino is blocked
-	//Calculate who is winner if it is blocked
 	return false, self.game.State
+}
+
+func (self *GameController) locateNeutrino() (x, y byte) {
+	for x := byte(0); x < 5; x++ {
+		for y := byte(0); y < 5; y++ {
+			piece, _ := self.game.GetLocation(x, y)
+			if piece == Neutrino {
+				return x, y
+			}
+		}
+	}
+	panic("The game does not contain any neutrino!")
+}
+
+func (self *GameController) isSquareBlocked(x, y byte) bool {
+	isSquareBlocked := true
+	iStart := -1
+	if x == 0 {
+		iStart = 0
+	}
+	jStart := -1
+	if y == 0 {
+		jStart = 0
+	}
+	for i := iStart; i < 2; i++ {
+		for j := jStart; j < 2; j++ {
+			if i == 0 && j == 0 {
+				continue
+			}
+			piece, err := self.game.GetLocation( byte(int(x) + i), byte(int(y) + j))
+			isNeighbourBlocked := err != nil || piece != EmptySquare
+			isSquareBlocked = isSquareBlocked && isNeighbourBlocked
+		}
+	}
+	return isSquareBlocked
 }
 
 func (self *GameController) getNextState() State {

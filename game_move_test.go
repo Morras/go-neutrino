@@ -1,67 +1,6 @@
 package neutrino
 
 import "testing"
-//import "fmt"
-
-/** 
- * There is a problem that GameController sends messages
- * to a state and a move channel when a move is being 
- * made, and if these channels are not cleared the 
- * program deadlocks. 
- * This method makes sure to clear the channel and then
- * does nothing
- */
-func pollChannels(moveChan <- chan Move, stateChan <- chan State) {
-	go pollMoves(moveChan)
-	go pollStates(stateChan)
-}
-func pollMoves(moveChan <- chan Move){
-	for move := range moveChan{ move = move}
-}
-
-func pollStates(stateChan <- chan State){
-	for state := range stateChan{ state = state}
-}
-
-/**
-	* Basic setup of an empty game
-	*/
-func setupEmptyGame() (*Game, *GameController) {
-	game := NewEmptyGame()
-	controller := &GameController{}
-	mChan, sChan := controller.StartGame(game)
-	go pollChannels(mChan, sChan)
-	return game, controller
-}
-
-/**
- * Setup with a player 1 piece on
- * (1,1), (3,1), (3,1) and (3,3)
- * and it is player ones turn to move
- * their own piece.
- */
-func setupSquaredGame() (*Game, *GameController) {
-	game, controller := setupEmptyGame()
-	game.SetLocation(1, 1, Player1)
-	game.SetLocation(1, 3, Player1)
-	game.SetLocation(3, 1, Player1)
-	game.SetLocation(3, 3, Player1)
-	game.State = Player1Move;
-	return game, controller
-}
-
-/**
- * Setup a game with neutrino in the
- * middle as the only piece and
- * it is player ones turn to move the
- * neutrino
- */
-func setupCenteredGame() (*Game, *GameController) {
-	game, controller := setupEmptyGame()
-	game.SetLocation(2, 2, Neutrino)
-	game.State = Player1NeutrinoMove;
-	return game, controller
-}
 
 /**
  * Series of test to see if basic movement
@@ -487,6 +426,7 @@ func TestCannotStopBeforeObstacleNW(t *testing.T) {
 func TestPlayerOnePieceMustMatchState(t *testing.T) {
 	game, controller := setupEmptyGame()
 	game.SetLocation(2, 2, Player1)
+	game.SetLocation(4, 4, Neutrino)
 	invalidStates := [5]State{Player1NeutrinoMove,
 														Player2NeutrinoMove,
 														Player2Move,
@@ -510,6 +450,7 @@ func TestPlayerOnePieceMustMatchState(t *testing.T) {
 func TestPlayerTwoPieceMustMatchState(t *testing.T) {
 	game, controller := setupEmptyGame()
 	game.SetLocation(2, 2, Player2)
+	game.SetLocation(4, 4, Neutrino)
 	invalidStates := [5]State{Player1NeutrinoMove,
 														Player2NeutrinoMove,
 														Player1Move,
@@ -533,6 +474,7 @@ func TestPlayerTwoPieceMustMatchState(t *testing.T) {
 func TestNeutrinoPieceMustMatchState(t *testing.T) {
 	game, controller := setupEmptyGame()
 	game.SetLocation(2, 2, Neutrino)
+	game.SetLocation(4, 4, Neutrino)
 	invalidStates := [4]State{Player1Move,
 														Player2Move,
 														Player1Win,
@@ -559,6 +501,7 @@ func TestNeutrinoPieceMustMatchState(t *testing.T) {
 
 func TestEmptyPiecesMustNotBeMoved(t *testing.T) {
 	game, controller := setupEmptyGame()
+	game.SetLocation(4, 4, Neutrino)
 	invalidStates := [6]State{Player1NeutrinoMove,
 														Player2NeutrinoMove,
 														Player1Move,
@@ -583,6 +526,7 @@ func TestEmptyPiecesMustNotBeMoved(t *testing.T) {
 func TestCanOnlyMoveStraightLowerLeftStart(t *testing.T) {
 	game, controller := setupEmptyGame()
 	game.SetLocation(1, 3, Player1)
+	game.SetLocation(2, 2, Neutrino)
 	game.State = Player1Move
 	invalidMoves := [10]Move{NewMove(1, 3, 0, 0),
 													NewMove(1, 3, 0, 1),
@@ -606,6 +550,7 @@ func TestCanOnlyMoveStraightLowerLeftStart(t *testing.T) {
 func TestCanOnlyMoveStraightUpperRightStart(t *testing.T) {
 	game, controller := setupEmptyGame()
 	game.SetLocation(3, 1, Player1)
+	game.SetLocation(2, 2, Neutrino)
 	game.State = Player1Move
 	invalidMoves := [10]Move{NewMove(3, 1, 0, 0),
 													NewMove(3, 1, 0, 2),
@@ -753,6 +698,7 @@ func TestCannotMoveAllPiecesBackToPlayer1HomeRow(t *testing.T){
 	game.SetLocation(2, 0, Player1)
 	game.SetLocation(3, 0, Player1)
 	game.SetLocation(4, 0, Player1)
+	game.SetLocation(3, 3, Neutrino)
 
 	_, err := controller.MakeMove(NewMove(1, 0, 1, 4))
 	if err != nil {
@@ -796,6 +742,7 @@ func TestCannotMoveAllPiecesBackToPlayer2HomeRow(t *testing.T){
 	game.SetLocation(2, 4, Player2)
 	game.SetLocation(3, 4, Player2)
 	game.SetLocation(4, 4, Player2)
+	game.SetLocation(3, 3, Neutrino)
 
 	_, err := controller.MakeMove(NewMove(1, 4, 1, 0))
 	if err != nil {
