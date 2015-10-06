@@ -88,17 +88,3 @@ func (self *Game) GetLocation(x, y byte) (Entry, error){
 	}
 	return self.game[x+widthOfBoard*y], nil
 }
-
-/**
- * This has proven usefull for debugging.
- * Note that the entries are the
- * ascii value of the rune, so 48 = '0'
- */
-func (self *Game) PrintGame(){
-	for y := 0; y < 5; y++ {
-		for x := 0; x < 5; x++ {
-			fmt.Printf("%f", self.game[x+widthOfBoard*y])
-		}
-		fmt.Println()
-	}
-}
