@@ -88,3 +88,63 @@ func TestTrappedNeutrinoMiddle(t  *testing.T){
 		t.Error("Player1 should be winner as neutrino cannot move, expected", Player1Win, "got", state)
 	}
 }
+
+func TestMoveOwnNeutrinoToP1HomeRowLooses(t* testing.T){
+	game, controller := setupEmptyGame()
+	defer controller.EndGame()
+
+	game.SetLocation(1, 1, Neutrino)
+	game.State = Player1NeutrinoMove
+	state, err := controller.MakeMove(NewMove(1, 1, 1, 0))
+	if err != nil {
+		t.Error("Expected to be able to make a move, got", err)
+	}
+	if state != Player2Win {
+		t.Error("Expected", Player2Win, " but state was", state)
+	}
+}
+
+func TestMoveOwnNeutrinoToP1HomeRowWins(t* testing.T){
+	game, controller := setupEmptyGame()
+	defer controller.EndGame()
+
+	game.SetLocation(4, 1, Neutrino)
+	game.State = Player2NeutrinoMove
+	state, err := controller.MakeMove(NewMove(4, 1, 4, 0))
+	if err != nil {
+		t.Error("Expected to be able to make a move, got", err)
+	}
+	if state != Player2Win {
+		t.Error("Expected", Player2Win, " but state was", state)
+	}
+}
+
+func TestMoveOwnNeutrinoToP2HomeRowLooses(t* testing.T){
+	game, controller := setupEmptyGame()
+	defer controller.EndGame()
+
+	game.SetLocation(0, 1, Neutrino)
+	game.State = Player2NeutrinoMove
+	state, err := controller.MakeMove(NewMove(0, 1, 0, 4))
+	if err != nil {
+		t.Error("Expected to be able to make a move, got", err)
+	}
+	if state != Player1Win {
+		t.Error("Expected", Player1Win, " but state was", state)
+	}
+}
+
+func TestMoveOwnNeutrinoToP2HomeRowWins(t* testing.T){
+	game, controller := setupEmptyGame()
+	defer controller.EndGame()
+
+	game.SetLocation(2, 1, Neutrino)
+	game.State = Player1NeutrinoMove
+	state, err := controller.MakeMove(NewMove(2, 1, 2, 4))
+	if err != nil {
+		t.Error("Expected to be able to make a move, got", err)
+	}
+	if state != Player1Win {
+		t.Error("Expected", Player1Win, " but state was", state)
+	}
+}

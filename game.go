@@ -220,9 +220,11 @@ func (self *GameController) isThereAWinner() (bool, State) {
 		return true, Player2Win
 	}
 
-	//TODO
-	//See if neutrino is on back row
-	//See if neutrino is on front row
+	if y == 0 {
+		return true, Player2Win
+	} else if y == 4 {
+		return true, Player1Win
+	}
 	return false, self.game.State
 }
 
