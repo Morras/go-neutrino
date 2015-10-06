@@ -67,3 +67,21 @@ func TestGetLocationOutsideBoardGivesError(t* testing.T){
 		}
 	}
 }
+
+func TestSetLocationOutsideBoardGivesError(t* testing.T){
+	game := NewStandardGame()
+	for i := byte(0); i < 10; i++ {
+		for j := byte(0); j < 10; j++ {
+			err := game.SetLocation(i, j, Player1)
+			if i > 4 || j > 4 {
+				if err == nil {
+					t.Errorf("Expected to get an error when asking for location at (%d,  %d) but got no error", i, j)
+				}
+			} else {
+				if err != nil {
+					t.Errorf("Expected not to get an error when asking for location at (%d,  %d) but got %q", i, j, err)
+				}
+			}
+		}
+	}
+}
