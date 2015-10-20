@@ -1,7 +1,6 @@
 package neutrino
 
 import "testing"
-import . "github.com/morras/go-neutrino"
 
 /**
  * Series of test to see if basic movement

@@ -1,7 +1,6 @@
 package neutrino
 
 import "testing"
-import . "github.com/morras/go-neutrino"
 
 func TestTrappedNeutrinoEast(t  *testing.T){
 	game, controller := setupEmptyGame()

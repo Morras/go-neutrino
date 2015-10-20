@@ -1,7 +1,6 @@
 package neutrino
 
 import "testing"
-import . "github.com/morras/go-neutrino"
 
 type entryCheck struct {
 	X, Y byte
