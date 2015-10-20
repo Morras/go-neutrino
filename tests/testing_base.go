@@ -1,5 +1,7 @@
 package neutrino
 
+import . "github.com/morras/go-neutrino"
+
 /** 
  * There is a problem that GameController sends messages
  * to a state and a move channel when a move is being 
