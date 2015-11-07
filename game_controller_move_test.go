@@ -6,13 +6,13 @@ import "testing"
  * Series of test to see if basic movement
  * is working.
  */
-func TestMoveNorth(t *testing.T){
-	game, controller := setupCenteredGame()
+func TestMoveNorth(t *testing.T) {
+	game, controller := SetupCenteredGame()
 	defer controller.EndGame()
 
 	controller.MakeMove(NewMove(2, 2, 2, 0))
 
-	middle, err  := game.GetLocation(2, 2)
+	middle, err := game.GetLocation(2, 2)
 	if err != nil {
 		t.Error("Expected no error got", err)
 	}
@@ -29,13 +29,13 @@ func TestMoveNorth(t *testing.T){
 	}
 }
 
-func TestMoveNorthEast(t *testing.T){
-	game, controller := setupCenteredGame()
+func TestMoveNorthEast(t *testing.T) {
+	game, controller := SetupCenteredGame()
 	defer controller.EndGame()
 
 	controller.MakeMove(NewMove(2, 2, 4, 0))
 
-	middle, err  := game.GetLocation(2, 2)
+	middle, err := game.GetLocation(2, 2)
 	if err != nil {
 		t.Error("Expected no error got", err)
 	}
@@ -52,13 +52,13 @@ func TestMoveNorthEast(t *testing.T){
 	}
 }
 
-func TestMoveEast(t *testing.T){
-	game, controller := setupCenteredGame()
+func TestMoveEast(t *testing.T) {
+	game, controller := SetupCenteredGame()
 	defer controller.EndGame()
 
 	controller.MakeMove(NewMove(2, 2, 4, 2))
 
-	middle, err  := game.GetLocation(2, 2)
+	middle, err := game.GetLocation(2, 2)
 	if err != nil {
 		t.Error("Expected no error got", err)
 	}
@@ -75,13 +75,13 @@ func TestMoveEast(t *testing.T){
 	}
 }
 
-func TestMoveSouthEast(t *testing.T){
-	game, controller := setupCenteredGame()
+func TestMoveSouthEast(t *testing.T) {
+	game, controller := SetupCenteredGame()
 	defer controller.EndGame()
 
 	controller.MakeMove(NewMove(2, 2, 4, 4))
 
-	middle, err  := game.GetLocation(2, 2)
+	middle, err := game.GetLocation(2, 2)
 	if err != nil {
 		t.Error("Expected no error got", err)
 	}
@@ -98,13 +98,13 @@ func TestMoveSouthEast(t *testing.T){
 	}
 }
 
-func TestMoveSouth(t *testing.T){
-	game, controller := setupCenteredGame()
+func TestMoveSouth(t *testing.T) {
+	game, controller := SetupCenteredGame()
 	defer controller.EndGame()
 
 	controller.MakeMove(NewMove(2, 2, 2, 4))
 
-	middle, err  := game.GetLocation(2, 2)
+	middle, err := game.GetLocation(2, 2)
 	if err != nil {
 		t.Error("Expected no error got", err)
 	}
@@ -121,13 +121,13 @@ func TestMoveSouth(t *testing.T){
 	}
 }
 
-func TestMoveSouthWest(t *testing.T){
-	game, controller := setupCenteredGame()
+func TestMoveSouthWest(t *testing.T) {
+	game, controller := SetupCenteredGame()
 	defer controller.EndGame()
 
 	controller.MakeMove(NewMove(2, 2, 0, 4))
 
-	middle, err  := game.GetLocation(2, 2)
+	middle, err := game.GetLocation(2, 2)
 	if err != nil {
 		t.Error("Expected no error got", err)
 	}
@@ -144,13 +144,13 @@ func TestMoveSouthWest(t *testing.T){
 	}
 }
 
-func TestMoveWest(t *testing.T){
-	game, controller := setupCenteredGame()
+func TestMoveWest(t *testing.T) {
+	game, controller := SetupCenteredGame()
 	defer controller.EndGame()
 
 	controller.MakeMove(NewMove(2, 2, 0, 2))
 
-	middle, err  := game.GetLocation(2, 2)
+	middle, err := game.GetLocation(2, 2)
 	if err != nil {
 		t.Error("Expected no error got", err)
 	}
@@ -167,13 +167,13 @@ func TestMoveWest(t *testing.T){
 	}
 }
 
-func TestMoveNorthWest(t *testing.T){
-	game, controller := setupCenteredGame()
+func TestMoveNorthWest(t *testing.T) {
+	game, controller := SetupCenteredGame()
 	defer controller.EndGame()
 
 	controller.MakeMove(NewMove(2, 2, 0, 0))
 
-	middle, err  := game.GetLocation(2, 2)
+	middle, err := game.GetLocation(2, 2)
 	if err != nil {
 		t.Error("Expected no error got", err)
 	}
@@ -196,7 +196,7 @@ func TestMoveNorthWest(t *testing.T){
  */
 
 func TestStopOnPieceNW(t *testing.T) {
-	_, controller := setupSquaredGame()
+	_, controller := SetupSquaredGame()
 	defer controller.EndGame()
 	//Make invalid move past a piece
 	_, moveError := controller.MakeMove(NewMove(3, 3, 0, 0))
@@ -211,7 +211,7 @@ func TestStopOnPieceNW(t *testing.T) {
 }
 
 func TestStopOnPieceN(t *testing.T) {
-	_, controller := setupSquaredGame()
+	_, controller := SetupSquaredGame()
 	defer controller.EndGame()
 	//Make invalid move past a piece
 	_, moveError := controller.MakeMove(NewMove(3, 3, 3, 0))
@@ -226,7 +226,7 @@ func TestStopOnPieceN(t *testing.T) {
 }
 
 func TestStopOnPieceNE(t *testing.T) {
-	_, controller := setupSquaredGame()
+	_, controller := SetupSquaredGame()
 	defer controller.EndGame()
 	//Make invalid move past a piece
 	_, moveError := controller.MakeMove(NewMove(1, 3, 4, 0))
@@ -241,7 +241,7 @@ func TestStopOnPieceNE(t *testing.T) {
 }
 
 func TestStopOnPieceE(t *testing.T) {
-	_, controller := setupSquaredGame()
+	_, controller := SetupSquaredGame()
 	defer controller.EndGame()
 	//Make invalid move past a piece
 	_, moveError := controller.MakeMove(NewMove(1, 1, 4, 1))
@@ -256,7 +256,7 @@ func TestStopOnPieceE(t *testing.T) {
 }
 
 func TestStopOnPieceSE(t *testing.T) {
-	_, controller := setupSquaredGame()
+	_, controller := SetupSquaredGame()
 	defer controller.EndGame()
 	//Make invalid move past a piece
 	_, moveError := controller.MakeMove(NewMove(1, 1, 4, 4))
@@ -271,7 +271,7 @@ func TestStopOnPieceSE(t *testing.T) {
 }
 
 func TestStopOnPieceS(t *testing.T) {
-	_, controller := setupSquaredGame()
+	_, controller := SetupSquaredGame()
 	defer controller.EndGame()
 	//Make invalid move past a piece
 	_, moveError := controller.MakeMove(NewMove(1, 1, 1, 4))
@@ -286,7 +286,7 @@ func TestStopOnPieceS(t *testing.T) {
 }
 
 func TestStopOnPieceSW(t *testing.T) {
-	_, controller := setupSquaredGame()
+	_, controller := SetupSquaredGame()
 	defer controller.EndGame()
 	//Make invalid move past a piece
 	_, moveError := controller.MakeMove(NewMove(3, 1, 0, 4))
@@ -301,7 +301,7 @@ func TestStopOnPieceSW(t *testing.T) {
 }
 
 func TestStopOnPieceW(t *testing.T) {
-	_, controller := setupSquaredGame()
+	_, controller := SetupSquaredGame()
 	defer controller.EndGame()
 	//Make invalid move past a piece
 	_, moveError := controller.MakeMove(NewMove(3, 3, 0, 3))
@@ -324,7 +324,7 @@ func TestStopOnPieceW(t *testing.T) {
  */
 
 func TestCannotMoveOutsideBoardW(t *testing.T) {
-	_, controller := setupCenteredGame()
+	_, controller := SetupCenteredGame()
 	defer controller.EndGame()
 	_, moveError := controller.MakeMove(NewMove(2, 2, 5, 2))
 	if moveError == nil {
@@ -333,7 +333,7 @@ func TestCannotMoveOutsideBoardW(t *testing.T) {
 }
 
 func TestCannotMoveOutsideBoardSW(t *testing.T) {
-	_, controller := setupCenteredGame()
+	_, controller := SetupCenteredGame()
 	defer controller.EndGame()
 	_, moveError := controller.MakeMove(NewMove(2, 2, 5, 5))
 	if moveError == nil {
@@ -342,7 +342,7 @@ func TestCannotMoveOutsideBoardSW(t *testing.T) {
 }
 
 func TestCannotMoveOutsideBoardS(t *testing.T) {
-	_, controller := setupCenteredGame()
+	_, controller := SetupCenteredGame()
 	defer controller.EndGame()
 	_, moveError := controller.MakeMove(NewMove(2, 2, 2, 5))
 	if moveError == nil {
@@ -357,7 +357,7 @@ func TestCannotMoveOutsideBoardS(t *testing.T) {
  */
 
 func TestCannotStopBeforeObstacleN(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(2, 3, Player1)
 	game.State = Player1Move
@@ -368,7 +368,7 @@ func TestCannotStopBeforeObstacleN(t *testing.T) {
 }
 
 func TestCannotStopBeforeObstacleNE(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(1, 3, Player1)
 	game.State = Player1Move
@@ -379,7 +379,7 @@ func TestCannotStopBeforeObstacleNE(t *testing.T) {
 }
 
 func TestCannotStopBeforeObstacleE(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(1, 2, Player1)
 	game.State = Player1Move
@@ -390,7 +390,7 @@ func TestCannotStopBeforeObstacleE(t *testing.T) {
 }
 
 func TestCannotStopBeforeObstacleSE(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(1, 1, Player1)
 	game.State = Player1Move
@@ -401,7 +401,7 @@ func TestCannotStopBeforeObstacleSE(t *testing.T) {
 }
 
 func TestCannotStopBeforeObstacleS(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(2, 1, Player1)
 	game.State = Player1Move
@@ -412,7 +412,7 @@ func TestCannotStopBeforeObstacleS(t *testing.T) {
 }
 
 func TestCannotStopBeforeObstacleSW(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(3, 1, Player1)
 	game.State = Player1Move
@@ -423,7 +423,7 @@ func TestCannotStopBeforeObstacleSW(t *testing.T) {
 }
 
 func TestCannotStopBeforeObstacleW(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(3, 2, Player1)
 	game.State = Player1Move
@@ -434,7 +434,7 @@ func TestCannotStopBeforeObstacleW(t *testing.T) {
 }
 
 func TestCannotStopBeforeObstacleNW(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(3, 3, Player1)
 	game.State = Player1Move
@@ -451,15 +451,15 @@ func TestCannotStopBeforeObstacleNW(t *testing.T) {
  */
 
 func TestPlayerOnePieceMustMatchState(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(2, 2, Player1)
 	game.SetLocation(4, 4, Neutrino)
 	invalidStates := [5]State{Player1NeutrinoMove,
-														Player2NeutrinoMove,
-														Player2Move,
-														Player1Win,
-														Player2Win}
+		Player2NeutrinoMove,
+		Player2Move,
+		Player1Win,
+		Player2Win}
 
 	for _, state := range invalidStates {
 		game.State = state
@@ -476,15 +476,15 @@ func TestPlayerOnePieceMustMatchState(t *testing.T) {
 }
 
 func TestPlayerTwoPieceMustMatchState(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(2, 2, Player2)
 	game.SetLocation(4, 4, Neutrino)
 	invalidStates := [5]State{Player1NeutrinoMove,
-														Player2NeutrinoMove,
-														Player1Move,
-														Player1Win,
-														Player2Win}
+		Player2NeutrinoMove,
+		Player1Move,
+		Player1Win,
+		Player2Win}
 
 	for _, state := range invalidStates {
 		game.State = state
@@ -501,14 +501,14 @@ func TestPlayerTwoPieceMustMatchState(t *testing.T) {
 }
 
 func TestNeutrinoPieceMustMatchState(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(2, 2, Neutrino)
 	game.SetLocation(4, 4, Neutrino)
 	invalidStates := [4]State{Player1Move,
-														Player2Move,
-														Player1Win,
-														Player2Win}
+		Player2Move,
+		Player1Win,
+		Player2Win}
 
 	for _, state := range invalidStates {
 		game.State = state
@@ -530,15 +530,15 @@ func TestNeutrinoPieceMustMatchState(t *testing.T) {
 }
 
 func TestEmptyPiecesMustNotBeMoved(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(4, 4, Neutrino)
 	invalidStates := [6]State{Player1NeutrinoMove,
-														Player2NeutrinoMove,
-														Player1Move,
-														Player2Move,
-														Player1Win,
-														Player2Win}
+		Player2NeutrinoMove,
+		Player1Move,
+		Player2Move,
+		Player1Win,
+		Player2Win}
 
 	for _, state := range invalidStates {
 		game.State = state
@@ -550,26 +550,26 @@ func TestEmptyPiecesMustNotBeMoved(t *testing.T) {
 }
 
 /**
- * Series of test to make sure a piece is only moved 
+ * Series of test to make sure a piece is only moved
  * in a horizontal, vertical or diagonal direction
  */
 
 func TestCanOnlyMoveStraightLowerLeftStart(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(1, 3, Player1)
 	game.SetLocation(2, 2, Neutrino)
 	game.State = Player1Move
 	invalidMoves := [10]Move{NewMove(1, 3, 0, 0),
-													NewMove(1, 3, 0, 1),
-													NewMove(1, 3, 2, 0),
-													NewMove(1, 3, 2, 1),
-													NewMove(1, 3, 3, 0),
-													NewMove(1, 3, 3, 2),
-													NewMove(1, 3, 3, 4),
-													NewMove(1, 3, 4, 1),
-													NewMove(1, 3, 4, 2),
-													NewMove(1, 3, 4, 4)}
+		NewMove(1, 3, 0, 1),
+		NewMove(1, 3, 2, 0),
+		NewMove(1, 3, 2, 1),
+		NewMove(1, 3, 3, 0),
+		NewMove(1, 3, 3, 2),
+		NewMove(1, 3, 3, 4),
+		NewMove(1, 3, 4, 1),
+		NewMove(1, 3, 4, 2),
+		NewMove(1, 3, 4, 4)}
 
 	for _, move := range invalidMoves {
 		_, moveError := controller.MakeMove(move)
@@ -580,21 +580,21 @@ func TestCanOnlyMoveStraightLowerLeftStart(t *testing.T) {
 }
 
 func TestCanOnlyMoveStraightUpperRightStart(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(3, 1, Player1)
 	game.SetLocation(2, 2, Neutrino)
 	game.State = Player1Move
 	invalidMoves := [10]Move{NewMove(3, 1, 0, 0),
-													NewMove(3, 1, 0, 2),
-													NewMove(3, 1, 0, 3),
-													NewMove(3, 1, 1, 0),
-													NewMove(3, 1, 1, 2),
-													NewMove(3, 1, 1, 4),
-													NewMove(3, 1, 2, 3),
-													NewMove(3, 1, 2, 4),
-													NewMove(3, 1, 4, 3),
-													NewMove(3, 1, 4, 4)}
+		NewMove(3, 1, 0, 2),
+		NewMove(3, 1, 0, 3),
+		NewMove(3, 1, 1, 0),
+		NewMove(3, 1, 1, 2),
+		NewMove(3, 1, 1, 4),
+		NewMove(3, 1, 2, 3),
+		NewMove(3, 1, 2, 4),
+		NewMove(3, 1, 4, 3),
+		NewMove(3, 1, 4, 4)}
 
 	for _, move := range invalidMoves {
 		_, moveError := controller.MakeMove(move)
@@ -609,7 +609,7 @@ func TestCanOnlyMoveStraightUpperRightStart(t *testing.T) {
  */
 
 func TestPieceMustMoveToAnotherLocation(t *testing.T) {
-	_, controller := setupCenteredGame()
+	_, controller := SetupCenteredGame()
 	defer controller.EndGame()
 	_, moveError := controller.MakeMove(NewMove(2, 2, 2, 2))
 	if moveError == nil {
@@ -623,7 +623,7 @@ func TestPieceMustMoveToAnotherLocation(t *testing.T) {
  */
 
 func TestGameStateShouldAdvanceUponMove(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.State = Player1NeutrinoMove
 	game.SetLocation(1, 1, Neutrino)
@@ -636,7 +636,7 @@ func TestGameStateShouldAdvanceUponMove(t *testing.T) {
 		t.Error("It should be possible to move neutrino piece:", moveError)
 	}
 	if state != Player1Move {
-		t.Error("State should have advanced after neutrino was moved but was", state)
+		t.Error("State should have advanced after neutrino was moved but was. Expected", Player1Move, "but was", state)
 	}
 	//Move player 1 piece
 	state, moveError = controller.MakeMove(NewMove(1, 2, 0, 2))
@@ -644,15 +644,15 @@ func TestGameStateShouldAdvanceUponMove(t *testing.T) {
 		t.Error("It should be possible to move player 1 piece:", moveError)
 	}
 	if state != Player2NeutrinoMove {
-		t.Error("State should have advanced after player 1 piece was moved but was", state)
+		t.Error("State should have advanced after player 1 piece was moved. Expected", Player2NeutrinoMove, "but was", state)
 	}
 	//Move neutrino piece
-	state, moveError =	controller.MakeMove(NewMove(0, 1, 4, 1))
+	state, moveError = controller.MakeMove(NewMove(0, 1, 4, 1))
 	if moveError != nil {
 		t.Error("It should be possible to move neutrino piece:", moveError)
 	}
 	if state != Player2Move {
-		t.Error("State should have advanced after neutrino was moved but was", state)
+		t.Error("State should have advanced after neutrino was moved. Expected", Player2Move, "but was", state)
 	}
 	//Move player 2 piece
 	state, moveError = controller.MakeMove(NewMove(1, 3, 0, 3))
@@ -660,12 +660,12 @@ func TestGameStateShouldAdvanceUponMove(t *testing.T) {
 		t.Error("It should be possible to move player 2 piece:", moveError)
 	}
 	if state != Player1NeutrinoMove {
-		t.Error("State should have advanced after neutrino was moved but was", state)
+		t.Error("State should have advanced after neutrino was moved. Expected", Player1NeutrinoMove, "but was", state)
 	}
 }
 
 func TestGameStateShouldNotAdvanceUponInvalidMove(t *testing.T) {
-	game, controller := setupEmptyGame()
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.State = Player1NeutrinoMove
 	game.SetLocation(1, 1, Neutrino)
@@ -695,10 +695,10 @@ func TestGameStateShouldNotAdvanceUponInvalidMove(t *testing.T) {
 
 //We cannot make any moves from the west or north of
 //the board as the indices are bytes
-func TestMoveFromOutsideTheBoardIsInvalid(t  *testing.T) {
+func TestMoveFromOutsideTheBoardIsInvalid(t *testing.T) {
 	//We cannot add any pieces because the game
 	//will give an error when we try
-	_, controller := setupEmptyGame()
+	_, controller := SetupEmptyGame()
 	defer controller.EndGame()
 
 	_, err := controller.MakeMove(NewMove(1, 6, 1, 0))
@@ -715,8 +715,8 @@ func TestMoveFromOutsideTheBoardIsInvalid(t  *testing.T) {
 	}
 }
 
-func TestCannotMoveToAnotherPiece(t *testing.T){
-	game, controller := setupEmptyGame()
+func TestCannotMoveToAnotherPiece(t *testing.T) {
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.State = Player1NeutrinoMove
 	game.SetLocation(1, 1, Neutrino)
@@ -728,8 +728,8 @@ func TestCannotMoveToAnotherPiece(t *testing.T){
 	}
 }
 
-func TestCannotMoveAllPiecesBackToPlayer1HomeRow(t *testing.T){
-	game, controller := setupEmptyGame()
+func TestCannotMoveAllPiecesBackToPlayer1HomeRow(t *testing.T) {
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.State = Player1Move
 	game.SetLocation(0, 0, Player1)
@@ -750,7 +750,7 @@ func TestCannotMoveAllPiecesBackToPlayer1HomeRow(t *testing.T){
 	if err == nil {
 		t.Error("Expected to not be able to return all pieces to home row")
 	}
-	//If we remove a piece from the home work it should then be 
+	//If we remove a piece from the home work it should then be
 	//possible to move back
 	game.State = Player1Move
 	_, err = controller.MakeMove(NewMove(4, 0, 4, 4))
@@ -773,8 +773,8 @@ func TestCannotMoveAllPiecesBackToPlayer1HomeRow(t *testing.T){
 	}
 }
 
-func TestCannotMoveAllPiecesBackToPlayer2HomeRow(t *testing.T){
-	game, controller := setupEmptyGame()
+func TestCannotMoveAllPiecesBackToPlayer2HomeRow(t *testing.T) {
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.State = Player2Move
 	game.SetLocation(0, 4, Player2)
@@ -795,7 +795,7 @@ func TestCannotMoveAllPiecesBackToPlayer2HomeRow(t *testing.T){
 	if err == nil {
 		t.Error("Expected to not be able to return all pieces to home row")
 	}
-	//If we remove a piece from the home work it should then be 
+	//If we remove a piece from the home work it should then be
 	//possible to move back
 	game.State = Player2Move
 	_, err = controller.MakeMove(NewMove(4, 4, 4, 0))

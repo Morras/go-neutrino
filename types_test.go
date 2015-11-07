@@ -3,11 +3,11 @@ package neutrino
 import "testing"
 
 type entryCheck struct {
-	X, Y byte
+	X, Y          byte
 	ExpectedPiece Entry
 }
 
-func TestNewStandardGameLayout(t* testing.T){
+func TestNewStandardGameLayout(t *testing.T) {
 	game := NewStandardGame()
 
 	expectedEntries := []entryCheck{
@@ -50,7 +50,7 @@ func TestNewStandardGameLayout(t* testing.T){
 	}
 }
 
-func TestGetLocationOutsideBoardGivesError(t* testing.T){
+func TestGetLocationOutsideBoardGivesError(t *testing.T) {
 	game := NewStandardGame()
 	for i := byte(0); i < 10; i++ {
 		for j := byte(0); j < 10; j++ {
@@ -68,7 +68,7 @@ func TestGetLocationOutsideBoardGivesError(t* testing.T){
 	}
 }
 
-func TestSetLocationOutsideBoardGivesError(t* testing.T){
+func TestSetLocationOutsideBoardGivesError(t *testing.T) {
 	game := NewStandardGame()
 	for i := byte(0); i < 10; i++ {
 		for j := byte(0); j < 10; j++ {

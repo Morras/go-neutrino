@@ -1,10 +1,10 @@
 package neutrino
 
-/** 
+/**
  * There is a problem that GameController sends messages
- * to a state and a move channel when a move is being 
- * made, and if these channels are not cleared the 
- * program deadlocks. 
+ * to a state and a move channel when a move is being
+ * made, and if these channels are not cleared the
+ * program deadlocks.
  * This method makes sure to clear the channel and then
  * does nothing
  */
@@ -12,21 +12,25 @@ func pollChannels(moveChan <-chan Move, stateChan <-chan State) {
 	go pollMoves(moveChan)
 	go pollStates(stateChan)
 }
-func pollMoves(moveChan <-chan Move){
-	for move := range moveChan{ move = move}
+func pollMoves(moveChan <-chan Move) {
+	for move := range moveChan {
+		move = move
+	}
 }
 
-func pollStates(stateChan <-chan State){
-	for state := range stateChan{ state = state}
+func pollStates(stateChan <-chan State) {
+	for state := range stateChan {
+		state = state
+	}
 }
 
 /**
-	* Basic setup of an empty game
-	* Remember to add a neutrino to your game
-	* otherwise it is invalid and the game controller
-	* will panic
-	*/
-func setupEmptyGame() (*Game, *GameController) {
+* Basic setup of an empty game
+* Remember to add a neutrino to your game
+* otherwise it is invalid and the game controller
+* will panic
+ */
+func SetupEmptyGame() (*Game, *GameController) {
 	game := NewEmptyGame()
 	controller := &GameController{}
 	mChan, sChan := controller.StartGame(game)
@@ -40,13 +44,13 @@ func setupEmptyGame() (*Game, *GameController) {
  * and it is player ones turn to move
  * the neutrino.
  */
-func setupSquaredGame() (*Game, *GameController) {
-	game, controller := setupEmptyGame()
+func SetupSquaredGame() (*Game, *GameController) {
+	game, controller := SetupEmptyGame()
 	game.SetLocation(1, 1, Neutrino)
 	game.SetLocation(1, 3, Neutrino)
 	game.SetLocation(3, 1, Neutrino)
 	game.SetLocation(3, 3, Neutrino)
-	game.State = Player1NeutrinoMove;
+	game.State = Player1NeutrinoMove
 	return game, controller
 }
 
@@ -56,9 +60,9 @@ func setupSquaredGame() (*Game, *GameController) {
  * it is player ones turn to move the
  * neutrino
  */
-func setupCenteredGame() (*Game, *GameController) {
-	game, controller := setupEmptyGame()
+func SetupCenteredGame() (*Game, *GameController) {
+	game, controller := SetupEmptyGame()
 	game.SetLocation(2, 2, Neutrino)
-	game.State = Player1NeutrinoMove;
+	game.State = Player1NeutrinoMove
 	return game, controller
 }

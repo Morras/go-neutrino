@@ -2,8 +2,8 @@ package neutrino
 
 import "testing"
 
-func TestTrappedNeutrinoEast(t  *testing.T){
-	game, controller := setupEmptyGame()
+func TestTrappedNeutrinoEast(t *testing.T) {
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(0, 0, Player1)
 	game.SetLocation(1, 0, Player1)
@@ -30,8 +30,8 @@ func TestTrappedNeutrinoEast(t  *testing.T){
 	}
 }
 
-func TestTrappedNeutrinoWest(t  *testing.T){
-	game, controller := setupEmptyGame()
+func TestTrappedNeutrinoWest(t *testing.T) {
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(3, 0, Player1)
 	game.SetLocation(4, 0, Player1)
@@ -58,8 +58,8 @@ func TestTrappedNeutrinoWest(t  *testing.T){
 	}
 }
 
-func TestTrappedNeutrinoMiddle(t  *testing.T){
-	game, controller := setupEmptyGame()
+func TestTrappedNeutrinoMiddle(t *testing.T) {
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 	game.SetLocation(0, 1, Player1)
 	game.SetLocation(1, 1, Player1)
@@ -89,8 +89,8 @@ func TestTrappedNeutrinoMiddle(t  *testing.T){
 	}
 }
 
-func TestMoveOwnNeutrinoToP1HomeRowLooses(t* testing.T){
-	game, controller := setupEmptyGame()
+func TestMoveOwnNeutrinoToP1HomeRowLooses(t *testing.T) {
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 
 	game.SetLocation(1, 1, Neutrino)
@@ -104,8 +104,8 @@ func TestMoveOwnNeutrinoToP1HomeRowLooses(t* testing.T){
 	}
 }
 
-func TestMoveOwnNeutrinoToP1HomeRowWins(t* testing.T){
-	game, controller := setupEmptyGame()
+func TestMoveOwnNeutrinoToP1HomeRowWins(t *testing.T) {
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 
 	game.SetLocation(4, 1, Neutrino)
@@ -119,8 +119,8 @@ func TestMoveOwnNeutrinoToP1HomeRowWins(t* testing.T){
 	}
 }
 
-func TestMoveOwnNeutrinoToP2HomeRowLooses(t* testing.T){
-	game, controller := setupEmptyGame()
+func TestMoveOwnNeutrinoToP2HomeRowLooses(t *testing.T) {
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 
 	game.SetLocation(0, 1, Neutrino)
@@ -134,8 +134,8 @@ func TestMoveOwnNeutrinoToP2HomeRowLooses(t* testing.T){
 	}
 }
 
-func TestMoveOwnNeutrinoToP2HomeRowWins(t* testing.T){
-	game, controller := setupEmptyGame()
+func TestMoveOwnNeutrinoToP2HomeRowWins(t *testing.T) {
+	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
 
 	game.SetLocation(2, 1, Neutrino)
