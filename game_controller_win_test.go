@@ -25,7 +25,7 @@ func TestTrappedNeutrinoEast(t *testing.T) {
 	if err != nil {
 		t.Error("It should have been possible to make a move but got", err)
 	}
-	if state != Player1Win {
+	if state != Player1Win || game.State != Player1Win {
 		t.Error("Player1 should be winner as neutrino cannot move, expected", Player1Win, "got", state)
 	}
 }
@@ -53,7 +53,7 @@ func TestTrappedNeutrinoWest(t *testing.T) {
 	if err != nil {
 		t.Error("It should have been possible to make a move but got", err)
 	}
-	if state != Player2Win {
+	if state != Player2Win || game.State != Player2Win {
 		t.Error("Player2 should be winner as neutrino cannot move, expected", Player2Win, "got", state)
 	}
 }
@@ -84,7 +84,7 @@ func TestTrappedNeutrinoMiddle(t *testing.T) {
 	if err != nil {
 		t.Error("It should have been possible to make a move but got", err)
 	}
-	if state != Player1Win {
+	if state != Player1Win || game.State != Player1Win {
 		t.Error("Player1 should be winner as neutrino cannot move, expected", Player1Win, "got", state)
 	}
 }
@@ -99,7 +99,7 @@ func TestMoveOwnNeutrinoToP1HomeRowLooses(t *testing.T) {
 	if err != nil {
 		t.Error("Expected to be able to make a move, got", err)
 	}
-	if state != Player2Win {
+	if state != Player2Win || game.State != Player2Win {
 		t.Error("Expected", Player2Win, " but state was", state)
 	}
 }
@@ -114,7 +114,7 @@ func TestMoveOwnNeutrinoToP1HomeRowWins(t *testing.T) {
 	if err != nil {
 		t.Error("Expected to be able to make a move, got", err)
 	}
-	if state != Player2Win {
+	if state != Player2Win || game.State != Player2Win {
 		t.Error("Expected", Player2Win, " but state was", state)
 	}
 }
@@ -129,7 +129,7 @@ func TestMoveOwnNeutrinoToP2HomeRowLooses(t *testing.T) {
 	if err != nil {
 		t.Error("Expected to be able to make a move, got", err)
 	}
-	if state != Player1Win {
+	if state != Player1Win || game.State != Player1Win {
 		t.Error("Expected", Player1Win, " but state was", state)
 	}
 }
@@ -144,7 +144,7 @@ func TestMoveOwnNeutrinoToP2HomeRowWins(t *testing.T) {
 	if err != nil {
 		t.Error("Expected to be able to make a move, got", err)
 	}
-	if state != Player1Win {
+	if state != Player1Win || game.State != Player1Win {
 		t.Error("Expected", Player1Win, " but state was", state)
 	}
 }

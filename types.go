@@ -76,7 +76,7 @@ const (
 	EmptySquare Entry = 0
 	Player1     Entry = 1
 	Player2     Entry = 2
-	Neutrino    Entry = 4
+	Neutrino    Entry = 3
 )
 
 //// Game type ////
@@ -84,6 +84,25 @@ const (
 type Game struct {
 	game  [25]Entry
 	State State
+}
+
+func Compare(a, b *Game) (bool, string) {
+	if &a == &b {
+		return true, ""
+	}
+	for x := byte(1); x < 5; x++ {
+		for y := byte(1); y < 5; y++ {
+			entryA, _ := a.GetLocation(x, y)
+			entryB, _ := b.GetLocation(x, y)
+			if entryA != entryB {
+				return false, fmt.Sprintf("Difference in (%d, %d): %d and %d", x, y, entryA, entryB)
+			}
+		}
+	}
+	if a.State != b.State {
+		return false, fmt.Sprintf("Different states %d and %d", a.State, b.State)
+	}
+	return true, ""
 }
 
 const (

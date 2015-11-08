@@ -773,6 +773,24 @@ func TestCannotMoveAllPiecesBackToPlayer1HomeRow(t *testing.T) {
 	}
 }
 
+func TestPlayer1CanMoveWithinHomeRowWithFourPieces(t *testing.T) {
+	game, controller := SetupEmptyGame()
+	defer controller.EndGame()
+	game.State = Player1Move
+	game.SetLocation(0, 0, Player1)
+	game.SetLocation(1, 0, Player1)
+	game.SetLocation(2, 0, Player1)
+	game.SetLocation(4, 0, Player1)
+	game.SetLocation(3, 3, Neutrino)
+
+	//With only four pieces on your home row you should be
+	//able to move within the home row
+	_, err := controller.MakeMove(NewMove(2, 0, 3, 0))
+	if err != nil {
+		t.Error("Expected to be able to move within own home row when only four pieces are present")
+	}
+}
+
 func TestCannotMoveAllPiecesBackToPlayer2HomeRow(t *testing.T) {
 	game, controller := SetupEmptyGame()
 	defer controller.EndGame()
@@ -815,5 +833,23 @@ func TestCannotMoveAllPiecesBackToPlayer2HomeRow(t *testing.T) {
 	_, err = controller.MakeMove(NewMove(1, 0, 1, 4))
 	if err != nil {
 		t.Error("Expected to be able move back when there is only three pieces and an opposing piece on the home row, got", err)
+	}
+}
+
+func TestPlayer2CanMoveWithinHomeRowWithFourPieces(t *testing.T) {
+	game, controller := SetupEmptyGame()
+	defer controller.EndGame()
+	game.State = Player2Move
+	game.SetLocation(0, 4, Player2)
+	game.SetLocation(1, 4, Player2)
+	game.SetLocation(2, 4, Player2)
+	game.SetLocation(4, 4, Player2)
+	game.SetLocation(3, 3, Neutrino)
+
+	//With only four pieces on your home row you should be
+	//able to move within the home row
+	_, err := controller.MakeMove(NewMove(2, 4, 3, 4))
+	if err != nil {
+		t.Error("Expected to be able to move within own home row when only four pieces are present")
 	}
 }

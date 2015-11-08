@@ -43,6 +43,7 @@ func (self *GameController) MakeMove(m Move) (State, error) {
 
 	if winnerExists {
 		self.stateChannel <- winnerState
+		self.game.State = winnerState
 		return winnerState, nil
 	}
 
@@ -64,8 +65,8 @@ func (self *GameController) isMoveLegal(move Move) (bool, error) {
 		return false, err
 	}
 
-	if (move.ToY == 0 && self.game.State == Player1Move && self.getOwnPiecesOnHomeRow(1) == 4) ||
-		(move.ToY == 4 && self.game.State == Player2Move && self.getOwnPiecesOnHomeRow(2) == 4) {
+	if (move.ToY == 0 && move.FromY != 0 && self.game.State == Player1Move && self.getOwnPiecesOnHomeRow(1) == 4) ||
+		(move.ToY == 4 && move.FromY != 4 && self.game.State == Player2Move && self.getOwnPiecesOnHomeRow(2) == 4) {
 		return false, errors.New("Cannot move all five pieces back on home row")
 	}
 
