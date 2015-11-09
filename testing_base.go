@@ -1,30 +1,6 @@
 package neutrino
 
 /**
- * There is a problem that GameController sends messages
- * to a state and a move channel when a move is being
- * made, and if these channels are not cleared the
- * program deadlocks.
- * This method makes sure to clear the channel and then
- * does nothing
- */
-func pollChannels(moveChan <-chan Move, stateChan <-chan State) {
-	go pollMoves(moveChan)
-	go pollStates(stateChan)
-}
-func pollMoves(moveChan <-chan Move) {
-	for move := range moveChan {
-		move = move
-	}
-}
-
-func pollStates(stateChan <-chan State) {
-	for state := range stateChan {
-		state = state
-	}
-}
-
-/**
 * Basic setup of an empty game
 * Remember to add a neutrino to your game
 * otherwise it is invalid and the game controller
@@ -33,8 +9,7 @@ func pollStates(stateChan <-chan State) {
 func SetupEmptyGame() (*Game, *GameController) {
 	game := NewEmptyGame()
 	controller := &GameController{}
-	mChan, sChan := controller.StartGame(game)
-	go pollChannels(mChan, sChan)
+	controller.StartGame(game)
 	return game, controller
 }
 

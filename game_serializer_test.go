@@ -3,14 +3,14 @@ package neutrino
 import "testing"
 
 func TestSerialization_SquaredGame(t *testing.T) {
-	referenceGame, controller := SetupSquaredGame()
-	defer controller.EndGame()
+	referenceGame, _ := SetupSquaredGame()
+
 	testSerializationOfGame(referenceGame, t)
 }
 
 func TestSerialization_CenteredGame(t *testing.T) {
-	referenceGame, controller := SetupCenteredGame()
-	defer controller.EndGame()
+	referenceGame, _ := SetupCenteredGame()
+
 	testSerializationOfGame(referenceGame, t)
 }
 
@@ -22,9 +22,7 @@ func TestSerialization_StandardGame(t *testing.T) {
 func TestSerialization_RealGame(t *testing.T) {
 	referenceGame := NewStandardGame()
 	controller := &GameController{}
-	mChan, sChan := controller.StartGame(referenceGame)
-	go pollChannels(mChan, sChan)
-	defer controller.EndGame()
+	controller.StartGame(referenceGame)
 
 	testSerializationOfGame(referenceGame, t)
 	//Player1

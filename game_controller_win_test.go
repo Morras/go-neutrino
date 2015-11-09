@@ -4,7 +4,7 @@ import "testing"
 
 func TestTrappedNeutrinoEast(t *testing.T) {
 	game, controller := SetupEmptyGame()
-	defer controller.EndGame()
+
 	game.SetLocation(0, 0, Player1)
 	game.SetLocation(1, 0, Player1)
 	game.SetLocation(0, 2, Player2)
@@ -32,7 +32,7 @@ func TestTrappedNeutrinoEast(t *testing.T) {
 
 func TestTrappedNeutrinoWest(t *testing.T) {
 	game, controller := SetupEmptyGame()
-	defer controller.EndGame()
+
 	game.SetLocation(3, 0, Player1)
 	game.SetLocation(4, 0, Player1)
 	game.SetLocation(3, 2, Player2)
@@ -60,7 +60,7 @@ func TestTrappedNeutrinoWest(t *testing.T) {
 
 func TestTrappedNeutrinoMiddle(t *testing.T) {
 	game, controller := SetupEmptyGame()
-	defer controller.EndGame()
+
 	game.SetLocation(0, 1, Player1)
 	game.SetLocation(1, 1, Player1)
 	game.SetLocation(2, 1, Player1)
@@ -91,7 +91,6 @@ func TestTrappedNeutrinoMiddle(t *testing.T) {
 
 func TestMoveOwnNeutrinoToP1HomeRowLooses(t *testing.T) {
 	game, controller := SetupEmptyGame()
-	defer controller.EndGame()
 
 	game.SetLocation(1, 1, Neutrino)
 	game.State = Player1NeutrinoMove
@@ -106,7 +105,6 @@ func TestMoveOwnNeutrinoToP1HomeRowLooses(t *testing.T) {
 
 func TestMoveOwnNeutrinoToP1HomeRowWins(t *testing.T) {
 	game, controller := SetupEmptyGame()
-	defer controller.EndGame()
 
 	game.SetLocation(4, 1, Neutrino)
 	game.State = Player2NeutrinoMove
@@ -121,7 +119,6 @@ func TestMoveOwnNeutrinoToP1HomeRowWins(t *testing.T) {
 
 func TestMoveOwnNeutrinoToP2HomeRowLooses(t *testing.T) {
 	game, controller := SetupEmptyGame()
-	defer controller.EndGame()
 
 	game.SetLocation(0, 1, Neutrino)
 	game.State = Player2NeutrinoMove
@@ -136,7 +133,6 @@ func TestMoveOwnNeutrinoToP2HomeRowLooses(t *testing.T) {
 
 func TestMoveOwnNeutrinoToP2HomeRowWins(t *testing.T) {
 	game, controller := SetupEmptyGame()
-	defer controller.EndGame()
 
 	game.SetLocation(2, 1, Neutrino)
 	game.State = Player1NeutrinoMove

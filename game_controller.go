@@ -6,16 +6,10 @@ import "errors"
 
 type GameController struct {
 	game *Game
-
-	moveChannel  chan Move
-	stateChannel chan State
 }
 
-func (self *GameController) StartGame(g *Game) (<-chan Move, <-chan State) {
+func (self *GameController) StartGame(g *Game) {
 	self.game = g
-	self.moveChannel = make(chan Move)
-	self.stateChannel = make(chan State)
-	return self.moveChannel, self.stateChannel
 }
 
 func (self *GameController) MakeMove(m Move) (State, error) {
@@ -42,19 +36,12 @@ func (self *GameController) MakeMove(m Move) (State, error) {
 	}
 
 	if winnerExists {
-		self.stateChannel <- winnerState
 		self.game.State = winnerState
 		return winnerState, nil
 	}
 
 	self.game.State = self.getNextState()
-	self.stateChannel <- self.game.State
 	return self.game.State, nil
-}
-
-func (self *GameController) EndGame() {
-	close(self.moveChannel)
-	close(self.stateChannel)
 }
 
 func (self *GameController) isMoveLegal(move Move) (bool, error) {
@@ -181,7 +168,6 @@ func (self *GameController) move(move Move) error {
 	}
 	self.game.SetLocation(move.FromX, move.FromY, EmptySquare)
 	self.game.SetLocation(move.ToX, move.ToY, newEntry)
-	self.moveChannel <- move
 	return nil
 }
 
