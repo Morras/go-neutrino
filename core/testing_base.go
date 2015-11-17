@@ -1,4 +1,4 @@
-package neutrino
+package core
 
 /**
 * Basic setup of an empty game

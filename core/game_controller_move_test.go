@@ -1,4 +1,4 @@
-package neutrino
+package core
 
 import "testing"
 
