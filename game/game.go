@@ -10,7 +10,7 @@ type Game struct {
 }
 
 func Compare(a, b *Game) (bool, string) {
-	if &a == &b {
+	if a == b {
 		return true, ""
 	}
 	for x := byte(1); x < 5; x++ {
@@ -27,10 +27,6 @@ func Compare(a, b *Game) (bool, string) {
 	}
 	return true, ""
 }
-
-const (
-	widthOfBoard = 5
-)
 
 func NewEmptyGame() *Game {
 	game := &Game{}
@@ -53,6 +49,10 @@ func NewStandardGame() *Game {
 	game.State = Player1NeutrinoMove
 	return game
 }
+
+const (
+	widthOfBoard = 5
+)
 
 func (self *Game) SetLocation(x, y byte, entry Entry) error {
 	if x > 4 || y > 4 {
