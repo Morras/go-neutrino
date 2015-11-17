@@ -844,3 +844,28 @@ func TestPlayer2CanMoveWithinHomeRowWithFourPieces(t *testing.T) {
 		t.Error("Expected to be able to move within own home row when only four pieces are present")
 	}
 }
+
+func TestCannotPlayGameWithoutNeutrino(t *testing.T) {
+	game, controller := SetupEmptyGame()
+
+	game.State = Player2Move
+	game.SetLocation(0, 4, Player2)
+
+	//With only four pieces on your home row you should be
+	//able to move within the home row
+	_, err := controller.MakeMove(NewMove(0, 4, 4, 4))
+	if err == nil {
+		t.Error("Expected the game to complain that there where no neutrino")
+	}
+	fromSquare, _ := game.GetLocation(0, 4)
+	if fromSquare != Player2 {
+		t.Error("A piece should not be able to move if the game does not contain a neutrino, got ", fromSquare, " expected ", Player2)
+	}
+	toSquare, _ := game.GetLocation(4, 4)
+	if toSquare != EmptySquare {
+		t.Error("A piece should not be able to move if the game does not contain a neutrino, got ", toSquare, " expected ", EmptySquare)
+	}
+	if game.State != Player2Move {
+		t.Error("State should not advance when there are no neutrino in the game, got ", game.State, " expected ", Player2Move)
+	}
+}

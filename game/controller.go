@@ -32,6 +32,7 @@ func (self *Controller) MakeMove(m Move) (State, error) {
 		//the game cannot be played at this point.
 		movedEntry, _ := self.game.GetLocation(m.ToX, m.ToY)
 		self.game.SetLocation(m.FromX, m.FromY, movedEntry)
+		self.game.SetLocation(m.ToX, m.ToY, EmptySquare)
 		return self.game.State, err
 	}
 
