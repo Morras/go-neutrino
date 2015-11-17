@@ -18,10 +18,7 @@ func (self *Controller) MakeMove(m Move) (State, error) {
 		return self.game.State, err
 	}
 
-	err = self.move(m)
-	if err != nil {
-		return self.game.State, err
-	}
+	self.move(m)
 
 	winnerExists, winnerState, err := self.isThereAWinner()
 	if err != nil {
@@ -148,7 +145,8 @@ func (self *Controller) checkIfNthNeighbourIsFree(startX, startY, n byte, direct
 	case NW:
 		return self.checkIfSquareIsFree(startX-n, startY-n)
 	default:
-		return false
+		//Something has gone horrible wrong in the calculations
+		panic(fmt.Sprintf("Game is trying to make a move in an invalid direction", direction))
 	}
 }
 
@@ -162,14 +160,10 @@ func (self *Controller) checkIfSquareIsFree(x, y byte) bool {
 	return true
 }
 
-func (self *Controller) move(move Move) error {
-	newEntry, err := self.game.GetLocation(move.FromX, move.FromY)
-	if err != nil {
-		return err
-	}
+func (self *Controller) move(move Move) {
+	newEntry, _ := self.game.GetLocation(move.FromX, move.FromY)
 	self.game.SetLocation(move.FromX, move.FromY, EmptySquare)
 	self.game.SetLocation(move.ToX, move.ToY, newEntry)
-	return nil
 }
 
 func (self *Controller) isThereAWinner() (bool, State, error) {
@@ -244,9 +238,10 @@ func (self *Controller) getNextState() State {
 		return Player2Move
 	case Player2Move:
 		return Player1NeutrinoMove
+	default:
+		//We should never get here
+		panic(fmt.Sprintf("Game is in a state it cannot move on from %d", self.game.State))
 	}
-	//We should never get here
-	panic(fmt.Sprintf("Game is in a state it cannot move on from %d", self.game.State))
 }
 
 func (self *Controller) getOwnPiecesOnHomeRow(player byte) byte {
