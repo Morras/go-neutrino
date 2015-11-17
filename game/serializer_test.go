@@ -1,4 +1,4 @@
-package core
+package game
 
 import "testing"
 
@@ -21,7 +21,7 @@ func TestSerialization_StandardGame(t *testing.T) {
 
 func TestSerialization_RealGame(t *testing.T) {
 	referenceGame := NewStandardGame()
-	controller := &GameController{}
+	controller := &Controller{}
 	controller.StartGame(referenceGame)
 
 	testSerializationOfGame(referenceGame, t)
@@ -62,7 +62,7 @@ func testSerializationOfGame(referenceGame *Game, t *testing.T) {
 	}
 }
 
-func makeMoveAndCheckError(fromX, fromY, toX, toY byte, controller *GameController, t *testing.T) {
+func makeMoveAndCheckError(fromX, fromY, toX, toY byte, controller *Controller, t *testing.T) {
 	_, err := controller.MakeMove(NewMove(fromX, fromY, toX, toY))
 	if err != nil {
 		t.Error("Invalid move: ", err.Error())

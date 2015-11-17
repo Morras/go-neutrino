@@ -1,4 +1,4 @@
-package core
+package game
 
 /**
 * Basic setup of an empty game
@@ -6,9 +6,9 @@ package core
 * otherwise it is invalid and the game controller
 * will panic
  */
-func SetupEmptyGame() (*Game, *GameController) {
+func SetupEmptyGame() (*Game, *Controller) {
 	game := NewEmptyGame()
-	controller := &GameController{}
+	controller := &Controller{}
 	controller.StartGame(game)
 	return game, controller
 }
@@ -19,7 +19,7 @@ func SetupEmptyGame() (*Game, *GameController) {
  * and it is player ones turn to move
  * the neutrino.
  */
-func SetupSquaredGame() (*Game, *GameController) {
+func SetupSquaredGame() (*Game, *Controller) {
 	game, controller := SetupEmptyGame()
 	game.SetLocation(1, 1, Neutrino)
 	game.SetLocation(1, 3, Neutrino)
@@ -35,7 +35,7 @@ func SetupSquaredGame() (*Game, *GameController) {
  * it is player ones turn to move the
  * neutrino
  */
-func SetupCenteredGame() (*Game, *GameController) {
+func SetupCenteredGame() (*Game, *Controller) {
 	game, controller := SetupEmptyGame()
 	game.SetLocation(2, 2, Neutrino)
 	game.State = Player1NeutrinoMove

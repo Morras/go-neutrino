@@ -1,18 +1,18 @@
-package core
+package game
 
 import "fmt"
 import "math"
 import "errors"
 
-type GameController struct {
+type Controller struct {
 	game *Game
 }
 
-func (self *GameController) StartGame(g *Game) {
+func (self *Controller) StartGame(g *Game) {
 	self.game = g
 }
 
-func (self *GameController) MakeMove(m Move) (State, error) {
+func (self *Controller) MakeMove(m Move) (State, error) {
 	legalMove, err := self.isMoveLegal(m)
 	if !legalMove {
 		return self.game.State, err
@@ -44,7 +44,7 @@ func (self *GameController) MakeMove(m Move) (State, error) {
 	return self.game.State, nil
 }
 
-func (self *GameController) isMoveLegal(move Move) (bool, error) {
+func (self *Controller) isMoveLegal(move Move) (bool, error) {
 
 	answer, err := self.isMoveValidForState(move)
 
@@ -82,7 +82,7 @@ func (self *GameController) isMoveLegal(move Move) (bool, error) {
 	return self.isMoveByDirectionLegal(move.FromX, move.FromY, direction, byte(steps))
 }
 
-func (self *GameController) isMoveValidForState(move Move) (bool, error) {
+func (self *Controller) isMoveValidForState(move Move) (bool, error) {
 
 	state := self.game.State
 	if state == Player1Win || state == Player2Win {
@@ -106,7 +106,7 @@ func (self *GameController) isMoveValidForState(move Move) (bool, error) {
 	return true, nil
 }
 
-func (self *GameController) isMoveByDirectionLegal(startX, startY byte, direction Direction, steps byte) (bool, error) {
+func (self *Controller) isMoveByDirectionLegal(startX, startY byte, direction Direction, steps byte) (bool, error) {
 
 	if steps == 0 || direction == Origo {
 		return false, errors.New("The suggested move does not actually move any piece.")
@@ -128,7 +128,7 @@ func (self *GameController) isMoveByDirectionLegal(startX, startY byte, directio
 	return true, nil
 }
 
-func (self *GameController) checkIfNthNeighbourIsFree(startX, startY, n byte, direction Direction) bool {
+func (self *Controller) checkIfNthNeighbourIsFree(startX, startY, n byte, direction Direction) bool {
 	switch direction {
 	case N:
 		return self.checkIfSquareIsFree(startX, startY-n)
@@ -151,7 +151,7 @@ func (self *GameController) checkIfNthNeighbourIsFree(startX, startY, n byte, di
 	}
 }
 
-func (self *GameController) checkIfSquareIsFree(x, y byte) bool {
+func (self *Controller) checkIfSquareIsFree(x, y byte) bool {
 	entry, err := self.game.GetLocation(x, y)
 	if err != nil {
 		return false
@@ -161,7 +161,7 @@ func (self *GameController) checkIfSquareIsFree(x, y byte) bool {
 	return true
 }
 
-func (self *GameController) move(move Move) error {
+func (self *Controller) move(move Move) error {
 	newEntry, err := self.game.GetLocation(move.FromX, move.FromY)
 	if err != nil {
 		return err
@@ -171,7 +171,7 @@ func (self *GameController) move(move Move) error {
 	return nil
 }
 
-func (self *GameController) isThereAWinner() (bool, State, error) {
+func (self *Controller) isThereAWinner() (bool, State, error) {
 
 	//neutrino location
 	x, y := self.locateNeutrino()
@@ -198,7 +198,7 @@ func (self *GameController) isThereAWinner() (bool, State, error) {
 	return false, self.game.State, nil
 }
 
-func (self *GameController) locateNeutrino() (byte, byte) {
+func (self *Controller) locateNeutrino() (byte, byte) {
 	for x := byte(0); x < 5; x++ {
 		for y := byte(0); y < 5; y++ {
 			piece, _ := self.game.GetLocation(x, y)
@@ -210,7 +210,7 @@ func (self *GameController) locateNeutrino() (byte, byte) {
 	return 99, 99
 }
 
-func (self *GameController) isSquareBlocked(x, y byte) bool {
+func (self *Controller) isSquareBlocked(x, y byte) bool {
 	isSquareBlocked := true
 	iStart := -1
 	if x == 0 {
@@ -233,7 +233,7 @@ func (self *GameController) isSquareBlocked(x, y byte) bool {
 	return isSquareBlocked
 }
 
-func (self *GameController) getNextState() State {
+func (self *Controller) getNextState() State {
 	switch self.game.State {
 	case Player1NeutrinoMove:
 		return Player1Move
@@ -248,7 +248,7 @@ func (self *GameController) getNextState() State {
 	panic(fmt.Sprintf("Game is in a state it cannot move on from %d", self.game.State))
 }
 
-func (self *GameController) getOwnPiecesOnHomeRow(player byte) byte {
+func (self *Controller) getOwnPiecesOnHomeRow(player byte) byte {
 	count := byte(0)
 	if player == 1 {
 		for i := byte(0); i < 5; i++ {
