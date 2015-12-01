@@ -51,7 +51,6 @@ func UInt64ToGame(input uint64) *Game {
 			x = 0
 			y++
 		}
-
 	}
 
 	stateAsBits := bits[61:64]

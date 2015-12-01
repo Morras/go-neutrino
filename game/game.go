@@ -9,7 +9,7 @@ type Game struct {
 	State State
 }
 
-func Compare(a, b *Game) (bool, string) {
+func Compare(a, b *Game) (isEqual bool, difference string) {
 	if a == b {
 		return true, ""
 	}

@@ -2,7 +2,6 @@ package game
 
 import "fmt"
 import "math"
-import "errors"
 
 type Controller struct {
 	game *Game
@@ -13,9 +12,9 @@ func (self *Controller) StartGame(g *Game) {
 }
 
 func (self *Controller) MakeMove(m Move) (State, error) {
-	legalMove, err := self.isMoveLegal(m)
-	if !legalMove {
-		return self.game.State, err
+
+	if legalMove, errorMsg := self.isMoveLegal(m); !legalMove {
+		return self.game.State, fmt.Errorf(errorMsg)
 	}
 
 	self.move(m)
@@ -42,17 +41,15 @@ func (self *Controller) MakeMove(m Move) (State, error) {
 	return self.game.State, nil
 }
 
-func (self *Controller) isMoveLegal(move Move) (bool, error) {
+func (self *Controller) isMoveLegal(move Move) (answer bool, message string) {
 
-	answer, err := self.isMoveValidForState(move)
-
-	if !answer {
-		return false, err
+	if answer, msg := self.isMoveValidForState(move); !answer {
+		return false, msg
 	}
 
 	if (move.ToY == 0 && move.FromY != 0 && self.game.State == Player1Move && self.getOwnPiecesOnHomeRow(1) == 4) ||
 		(move.ToY == 4 && move.FromY != 4 && self.game.State == Player2Move && self.getOwnPiecesOnHomeRow(2) == 4) {
-		return false, errors.New("Cannot move all five pieces back on home row")
+		return false, "Cannot move all five pieces back on home row"
 	}
 
 	//Need to change from byte to int8 to prevent underflow
@@ -60,7 +57,7 @@ func (self *Controller) isMoveLegal(move Move) (bool, error) {
 	deltaY := int8(move.ToY - move.FromY)
 
 	if deltaX != 0 && deltaY != 0 && (deltaX != deltaY && deltaX != -deltaY) {
-		return false, errors.New("Piece must be move in a straight line")
+		return false, "Piece must be move in a straight line"
 	}
 
 	direction := Origo
@@ -80,50 +77,48 @@ func (self *Controller) isMoveLegal(move Move) (bool, error) {
 	return self.isMoveByDirectionLegal(move.FromX, move.FromY, direction, byte(steps))
 }
 
-func (self *Controller) isMoveValidForState(move Move) (bool, error) {
+func (self *Controller) isMoveValidForState(move Move) (answer bool, message string) {
 
 	state := self.game.State
 	if state == Player1Win || state == Player2Win {
-		return false, errors.New("Cannot move as the game has been won")
+		return false, "Cannot move as the game has been won"
 	}
 
 	entry, err := self.game.GetLocation(move.FromX, move.FromY)
 	if err != nil {
-		return false, err
+		return false, err.Error()
 	}
 
 	if entry == EmptySquare {
-		return false, errors.New("Move must start at a non empty board location")
+		return false, "Move must start at a non empty board location"
 	} else if entry == Player1 && state != Player1Move {
-		return false, errors.New("It must be player 1 turn to move player 1 piece")
+		return false, "It must be player 1 turn to move player 1 piece"
 	} else if entry == Player2 && state != Player2Move {
-		return false, errors.New("It must be player 2 turn to move player 2 piece")
+		return false, "It must be player 2 turn to move player 2 piece"
 	} else if entry == Neutrino && state != Player1NeutrinoMove && state != Player2NeutrinoMove {
-		return false, errors.New("It must be either player 1 or player 2 turn to move neutrino")
+		return false, "It must be either player 1 or player 2 turn to move neutrino"
 	}
-	return true, nil
+	return true, ""
 }
 
-func (self *Controller) isMoveByDirectionLegal(startX, startY byte, direction Direction, steps byte) (bool, error) {
+func (self *Controller) isMoveByDirectionLegal(startX, startY byte, direction Direction, steps byte) (answer bool, message string) {
 
 	if steps == 0 || direction == Origo {
-		return false, errors.New("The suggested move does not actually move any piece.")
+		return false, "The suggested move does not actually move any piece."
 	}
 
-	err := errors.New("Invalid move, cannot pass another piece")
 	for i := byte(1); i <= steps; i++ {
-		free := self.checkIfNthNeighbourIsFree(startX, startY, i, direction)
-		if !free {
-			return free, err
+		//free :=
+		if ! self.checkIfNthNeighbourIsFree(startX, startY, i, direction) {
+			return false, "Invalid move, cannot pass another piece"
 		}
 	}
 	isNextSquareFree := self.checkIfNthNeighbourIsFree(startX, startY, steps+1, direction)
-
 	if isNextSquareFree {
-		return false, errors.New("Move does not move untill an obstacle is hit")
+		return false, "Move does not move untill an obstacle is hit"
 	}
 
-	return true, nil
+	return true, ""
 }
 
 func (self *Controller) checkIfNthNeighbourIsFree(startX, startY, n byte, direction Direction) bool {

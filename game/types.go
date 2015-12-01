@@ -59,12 +59,12 @@ const (
 type State byte
 
 const (
-	Player1NeutrinoMove State = 0
-	Player1Move         State = 1
-	Player2NeutrinoMove State = 2
-	Player2Move         State = 3
-	Player1Win          State = 4
-	Player2Win          State = 5
+	Player1NeutrinoMove State = iota
+	Player1Move
+	Player2NeutrinoMove
+	Player2Move
+	Player1Win
+	Player2Win
 )
 
 //// entry type ////
@@ -72,8 +72,8 @@ const (
 type Entry byte
 
 const (
-	EmptySquare Entry = 0
-	Player1     Entry = 1
-	Player2     Entry = 2
-	Neutrino    Entry = 3
+	EmptySquare Entry = iota
+	Player1
+	Player2
+	Neutrino
 )
