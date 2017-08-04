@@ -11,6 +11,10 @@ func (self *Controller) PlayGame(g *Game) {
 	self.game = g
 }
 
+func (self *Controller) Game() *Game {
+	return self.game
+}
+
 func (self *Controller) MakeMove(m Move) (State, error) {
 
 	if legalMove, errorMsg := self.isMoveLegal(m); !legalMove {
