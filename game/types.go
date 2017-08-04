@@ -29,7 +29,7 @@ func NewMove(fromX, fromY, toX, toY byte) Move {
 type Direction int8
 
 /**
-* To allow arithmetic Origo weill be 25 and then the following rules apply:
+* To allow arithmetic, Origo will be 25 and then the following rules apply:
 , Moving left subtracts 1
 * Moving right adds 1
 * Moving up subtracts 10

@@ -22,7 +22,7 @@ func TestSerialization_StandardGame(t *testing.T) {
 func TestSerialization_RealGame(t *testing.T) {
 	referenceGame := NewStandardGame()
 	controller := &Controller{}
-	controller.StartGame(referenceGame)
+	controller.NewController(referenceGame)
 
 	testSerializationOfGame(referenceGame, t)
 	//Player1

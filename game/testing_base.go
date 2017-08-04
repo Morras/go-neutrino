@@ -9,7 +9,7 @@ package game
 func SetupEmptyGame() (*Game, *Controller) {
 	game := NewEmptyGame()
 	controller := &Controller{}
-	controller.StartGame(game)
+	controller.NewController(game)
 	return game, controller
 }
 
