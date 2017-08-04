@@ -7,7 +7,7 @@ type Controller struct {
 	game *Game
 }
 
-func (self *Controller) NewController(g *Game) {
+func (self *Controller) PlayGame(g *Game) {
 	self.game = g
 }
 
