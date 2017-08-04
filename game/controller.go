@@ -7,6 +7,12 @@ type Controller struct {
 	game *Game
 }
 
+type GameController interface {
+	PlayGame(game *Game)
+	Game() *Game
+	MakeMove(m Move) (State, error)
+}
+
 func (self *Controller) PlayGame(g *Game) {
 	self.game = g
 }
